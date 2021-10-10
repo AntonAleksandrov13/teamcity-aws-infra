@@ -42,7 +42,6 @@ jobs:
       # Step 7
       - name: Terraform Plan
         id: plan
-        if: github.event_name == 'pull_request'
         run: chmod +x ./plan.sh && ./plan.sh test
         continue-on-error: true
         env:
