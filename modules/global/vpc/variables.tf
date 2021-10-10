@@ -1,9 +1,9 @@
 variable "vpc_name" {
-type = string
+  type = string
 }
 
 variable "cidr" {
-type = string
+  type = string
 }
 
 variable "azs" {
@@ -19,16 +19,16 @@ variable "private_subnets" {
 }
 
 variable "enable_nat_gateway" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "create_egress_only_igw" {
-  type = bool
+  type    = bool
   default = false
 }
 
-variable "private_subnets_tags" {
+variable "private_subnet_tags" {
   type = map(string)
   default = {
     "kubernetes.io/role/internal-elb" = "1"

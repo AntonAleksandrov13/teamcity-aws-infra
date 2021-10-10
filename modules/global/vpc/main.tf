@@ -11,6 +11,6 @@ module "vpc" {
   enable_nat_gateway = var.enable_nat_gateway
   create_egress_only_igw= var.create_egress_only_igw
 
-  private_subnets_tags = var.private_subnets_tags
+  private_subnet_tags = var.private_subnet_tags
 
 }
