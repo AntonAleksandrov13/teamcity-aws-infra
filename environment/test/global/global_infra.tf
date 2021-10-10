@@ -1,0 +1,1 @@
+../../../components/global_infra.tf
