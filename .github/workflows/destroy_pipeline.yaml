@@ -1,0 +1,31 @@
+name: Destruction Pipeline
+
+on: workflow_dispatch
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1
+      - uses: actions/checkout@v2
+      # Step 2
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.8
+      # Step 3
+      - name: Create symlinks
+        id: symlinks
+        run: chmod +x ./create_symlinks.sh && ./create_symlinks.sh test
+      # Step 4
+      - name: Terraform Init
+        id: init
+        run: chmod +x ./init.sh && ./init.sh test
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      # Step 5
+      - name: Terraform Destroy
+        id: destroy
+        run: chmod +x ./destroy.sh && ./destroy.sh test
