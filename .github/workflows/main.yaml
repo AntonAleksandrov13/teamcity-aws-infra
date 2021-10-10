@@ -3,11 +3,11 @@ name: Deployment Pipeline
 on:
   pull_request:
     branches:
-      - master
+      - main
   push:
     branches:
       - pull_request
-      - master
+      - main
 jobs:
   terraform:
     runs-on: ubuntu-latest
