@@ -24,3 +24,8 @@ variable "public_subnets" {
 variable "private_subnets" {
   type = list(string)
 }
+
+variable "route53_zones" {
+  type = any
+  default = {}
+}
