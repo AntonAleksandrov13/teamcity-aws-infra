@@ -15,5 +15,9 @@ module "vpc" {
   azs             = ["${var.region}a", "${var.region}b", "${var.region}c"]
   public_subnets  = var.public_subnets
   private_subnets = var.private_subnets
+}
 
+module "route53" {
+  source          = "../../../modules/global/route53"
+  zones = var.route53_zones
 }
