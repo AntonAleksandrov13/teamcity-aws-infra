@@ -24,6 +24,6 @@ module "route53" {
 
 module "bastion" {
   source  = "../../../modules/global/bastion"
-  vpc_id  = module.vpc.module.vpc.vpc_id
+  vpc_id  = module.vpc.vpc_id
   subnets = var.private_subnets
 }
