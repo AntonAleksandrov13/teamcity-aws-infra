@@ -11,3 +11,4 @@ route53_zones = {
     comment = "the main zone. all records here created using external-dns"
   }
 }
+
