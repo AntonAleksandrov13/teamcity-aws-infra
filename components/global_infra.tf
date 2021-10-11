@@ -18,6 +18,12 @@ module "vpc" {
 }
 
 module "route53" {
-  source          = "../../../modules/global/route53"
-  zones = var.route53_zones
+  source = "../../../modules/global/route53"
+  zones  = var.route53_zones
+}
+
+module "bastion" {
+  source  = "../../../modules/global/bastion"
+  vpc_id  = module.vpc.vpc_id
+  subnets = var.private_subnets
 }
