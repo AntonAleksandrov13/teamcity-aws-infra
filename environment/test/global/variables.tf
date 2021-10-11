@@ -29,3 +29,7 @@ variable "route53_zones" {
   type = any
   default = {}
 }
+
+variable "public_key" {
+  type = string
+}

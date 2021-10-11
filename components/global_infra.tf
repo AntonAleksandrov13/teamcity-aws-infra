@@ -23,7 +23,8 @@ module "route53" {
 }
 
 module "bastion" {
-  source  = "../../../modules/global/bastion"
-  vpc_id  = module.vpc.vpc_id
-  subnets = module.vpc.private_subnet_ids
+  source     = "../../../modules/global/bastion"
+  vpc_id     = module.vpc.vpc_id
+  subnets    = module.vpc.private_subnet_ids
+  public_key = var.public_key
 }
