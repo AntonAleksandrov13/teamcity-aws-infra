@@ -77,3 +77,18 @@ variable "instance_type" {
   type = string
   default = "t2.micro"
 }
+
+variable "max_eks_workers_per_asg" {
+  type = number
+  default = 25
+}
+
+variable "desired_eks_workers_per_asg" {
+  type = number
+  default = 1
+}
+
+variable "min_eks_workers_per_asg" {
+  type = number
+  default = 1
+}
