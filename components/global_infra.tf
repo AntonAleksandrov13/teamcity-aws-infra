@@ -28,3 +28,12 @@ module "bastion" {
   subnets    = module.vpc.private_subnet_ids
   public_key = var.public_key
 }
+
+module "eks" {
+  source             = "../../../modules/global/eks"
+  cluster_name       = var.cluster_name
+  vpc_id             = module.vpc.vpc_id
+  eks_worker_subnets = module.vpc.private_subnet_ids
+  eks_master_subnets = module.vpc.private_subnet_ids
+  map_roles          = var.map_roles
+}
