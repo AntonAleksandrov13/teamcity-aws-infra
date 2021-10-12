@@ -42,3 +42,7 @@ variable "map_users" {
     groups   = list(string)
   }))
 }
+
+variable "instance_type" {
+  type = string
+}

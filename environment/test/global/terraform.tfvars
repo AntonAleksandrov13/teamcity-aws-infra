@@ -24,3 +24,4 @@ map_users = [
     groups   = ["system:masters"]
   }
 ]
+instance_type = "t2.micro"

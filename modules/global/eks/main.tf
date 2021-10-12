@@ -19,7 +19,7 @@ module "eks" {
     for subnet in var.eks_worker_subnets :
     {
       key_name             = aws_key_pair.eks-worker-key.id
-      instance_type        = "t2.micro"
+      instance_type        = var.instance_type
       asg_max_size         = 1
       asg_desired_capacity = 1
       asg_min_size         = 1
