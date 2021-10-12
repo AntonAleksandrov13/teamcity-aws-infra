@@ -23,9 +23,15 @@ module "route53" {
 }
 
 module "bastion" {
-  source     = "../../../modules/global/bastion"
-  vpc_id     = module.vpc.vpc_id
-  subnets    = module.vpc.private_subnet_ids
+  source  = "../../../modules/global/bastion"
+  vpc_id  = module.vpc.vpc_id
+  subnets = module.vpc.private_subnet_ids
+}
+
+module "efs" {
+  source = "../../../modules/global/efs"
+  cluster_name = var.cluster_name
+  eks_worker_subnets = module.vpc.private_subnet_ids
 }
 
 module "eks" {
