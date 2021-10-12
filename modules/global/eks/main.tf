@@ -1,8 +1,23 @@
+data "aws_eks_cluster" "eks" {
+  name = var.cluster_name
+}
+
+data "aws_eks_cluster_auth" "eks" {
+  name = var.cluster_name
+}
+
+provider "kubernetes" {
+  host                   = data.aws_eks_cluster.eks.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks.certificate_authority[0].data)
+  token                  = data.aws_eks_cluster_auth.eks.token
+}
+
+
 module "eks" {
   source       = "terraform-aws-modules/eks/aws"
   version      = "17.1.0"
   cluster_name = var.cluster_name
-  subnets      = var.eks_master_subnets
+  subnets      = var.eks_worker_subnets
   vpc_id       = var.vpc_id
 
   cluster_version                 = var.cluster_version

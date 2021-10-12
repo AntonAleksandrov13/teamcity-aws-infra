@@ -23,12 +23,12 @@ variable "map_users" {
 
 variable "cluster_endpoint_public_access" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "cluster_endpoint_private_access" {
   type    = bool
-  default = true
+  default = false
 }
 
 variable "eks_master_subnets" {
