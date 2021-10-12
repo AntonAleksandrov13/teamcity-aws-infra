@@ -12,7 +12,7 @@ module "eks" {
 
   enable_irsa = var.enable_irsa
 
-  map_roles                   = var.map_roles
+  map_users                   = var.map_users
   manage_aws_auth             = var.manage_aws_auth
 
   node_groups = var.node_groups
