@@ -33,6 +33,7 @@ module "efs" {
   vpc_id  = module.vpc.vpc_id
   cluster_name = var.cluster_name
   eks_worker_subnets = module.vpc.private_subnet_ids
+  worker_security_group_id = module.eks.worker_security_group_id
 }
 
 module "eks" {

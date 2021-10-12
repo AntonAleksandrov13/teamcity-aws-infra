@@ -6,7 +6,7 @@ variable "cluster_name" {
 }
 
 variable "eks_worker_subnets" {
-  type = string
+  type = list(string)
 }
 
 variable "throughput_mode" {
@@ -17,5 +17,8 @@ variable "throughput_mode" {
 variable "provisioned_throughput_in_mibps" {
   type    = number
   default = 10
+}
 
+variable "worker_security_group_id" {
+  type = string
 }
