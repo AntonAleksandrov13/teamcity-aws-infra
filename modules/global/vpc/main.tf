@@ -10,6 +10,7 @@ module "vpc" {
 
   enable_nat_gateway = var.enable_nat_gateway
   create_egress_only_igw= var.create_egress_only_igw
+  enable_dns_hostnames = var.enable_dns_hostnames
 
   private_subnet_tags = var.private_subnet_tags
 

@@ -34,3 +34,8 @@ variable "private_subnet_tags" {
     "kubernetes.io/role/internal-elb" = "1"
   }
 }
+
+variable "enable_dns_hostnames" {
+  type = bool
+  default = true
+}
