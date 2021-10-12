@@ -35,5 +35,5 @@ module "eks" {
   vpc_id             = module.vpc.vpc_id
   eks_worker_subnets = module.vpc.private_subnet_ids
   eks_master_subnets = module.vpc.private_subnet_ids
-  map_roles          = var.map_roles
+  map_users          = var.map_users
 }
