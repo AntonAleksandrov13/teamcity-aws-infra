@@ -31,7 +31,7 @@ module "bastion" {
 module "eks" {
   source             = "../../../modules/global/eks"
   cluster_name       = var.cluster_name
-  instance_type      = vars.instance_type
+  instance_type      = var.instance_type
   vpc_id             = module.vpc.vpc_id
   eks_worker_subnets = module.vpc.private_subnet_ids
   eks_master_subnets = module.vpc.private_subnet_ids
