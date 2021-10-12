@@ -28,7 +28,7 @@ variable "cluster_endpoint_public_access" {
 
 variable "cluster_endpoint_private_access" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "eks_master_subnets" {

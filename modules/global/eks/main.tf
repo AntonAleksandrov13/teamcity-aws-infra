@@ -39,7 +39,7 @@ module "eks" {
       asg_desired_capacity = var.desired_eks_workers_per_asg
       asg_min_size         = var.min_eks_workers_per_asg
       subnets              = [subnet]
-      kubelet_extra_args   = "--node-labels=cluster=${var.cluster_name} --kube-reserved cpu=250m,memory=1Gi,ephemeral-storage=1G --system-reserved cpu=250m,memory=0.2Gi,ephemeral-storage=1Gi --eviction-hard memory.available<500Mi,nodefs.available<10%"
+      kubelet_extra_args   = "--node-labels=cluster=${var.cluster_name}"
       tags = [
         {
           "key"                 = "k8s.io/cluster-autoscaler/enabled"
