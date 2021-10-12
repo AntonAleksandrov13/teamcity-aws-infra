@@ -14,12 +14,12 @@ route53_zones = {
 cluster_name = "teamcity-test-eks"
 map_users = [
   {
-    rolearn  = "arn:aws:iam::332319340546:user/anton"
+    userarn  = "arn:aws:iam::332319340546:user/anton"
     username = "anton"
     groups   = ["system:masters"]
   },
   {
-    rolearn  = "arn:aws:iam::332319340546:user/github_actions"
+    userarn  = "arn:aws:iam::332319340546:user/github_actions"
     username = "cicd"
     groups   = ["system:masters"]
   }
