@@ -12,7 +12,7 @@ variable "cluster_create_timeout" {
   default = "15m"
 }
 
-variable "map_roles" {
+variable "map_users" {
   description = "Additional IAM roles to add to the aws-auth configmap."
   type = list(object({
     userarn  = string
