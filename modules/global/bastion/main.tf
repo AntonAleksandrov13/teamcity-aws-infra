@@ -16,7 +16,7 @@ resource "aws_key_pair" "bastion" {
   key_name   = "bastion-key"
   public_key = tls_private_key.pk.public_key_openssh
   provisioner "local-exec" {
-    command = "echo '${tls_private_key.pk.private_key_pem}' > ./myKey.pem"
+    command = "echo '${tls_private_key.pk.private_key_pem}' > ./bastion-key.pem"
   }
 }
 # TODO: fix storing secrets inside Vault

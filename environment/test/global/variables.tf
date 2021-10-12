@@ -30,6 +30,19 @@ variable "route53_zones" {
   default = {}
 }
 
-variable "public_key" {
+
+variable "cluster_name" {
+  type = string
+}
+
+variable "map_users" {
+  type = list(object({
+    userarn  = string
+    username = string
+    groups   = list(string)
+  }))
+}
+
+variable "instance_type" {
   type = string
 }
