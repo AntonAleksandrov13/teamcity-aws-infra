@@ -30,9 +30,6 @@ variable "route53_zones" {
   default = {}
 }
 
-variable "public_key" {
-  type = string
-}
 
 variable "cluster_name" {
   type = string
