@@ -15,10 +15,8 @@ module "eks" {
   map_users                   = var.map_users
   manage_aws_auth             = var.manage_aws_auth
 
-  node_groups = var.node_groups
-
   worker_groups = [
-    for subnet in data.aws_subnet_ids.unroutable.ids :
+    for subnet in var.eks_worker_subnets :
     {
       key_name             = aws_key_pair.eks-worker-key.id
       instance_type        = "t2.micro"
@@ -41,14 +39,6 @@ module "eks" {
       ]
     }
   ]
-
-  worker_groups_launch_template = var.worker_groups_launch_template
-
-  workers_group_defaults = {
-    pre_userdata = data.template_file.sysctl.rendered
-  }
-
-  tags = var.tags
 }
 
 resource "tls_private_key" "pk" {

@@ -4,7 +4,7 @@ variable "cluster_name" {
 
 variable "cluster_version" {
   type    = string
-  default = "1.21.2"
+  default = "1.21"
 }
 
 variable "cluster_create_timeout" {
@@ -72,5 +72,6 @@ variable "worker_groups" {
   }))
   default = []
 }
+
 
 
