@@ -9,7 +9,7 @@ variable "cluster_version" {
 
 variable "cluster_create_timeout" {
   type    = string
-  default = "15m"
+  default = "20m"
 }
 
 variable "map_users" {
