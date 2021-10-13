@@ -63,7 +63,6 @@ module "helm_utility_applications" {
   region                      = var.region
   efs_id                      = module.efs.id
   cluster_autoscaler_role_arn = module.iam.cluster_autoscaler_role_arn
-  external_dns_serviceacc_name = module.iam.external_dns_serviceacc_name
   external_dns_role_arn = module.iam.external_dns_role_arn
   txt_owner_id = module.route53.txt_owner_id
 
