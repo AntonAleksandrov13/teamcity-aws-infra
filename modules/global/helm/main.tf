@@ -99,3 +99,11 @@ resource "helm_release" "cert-manager" {
   version    = "1.4.1"
   namespace  = "kube-system"
 }
+
+resource "helm_release" "metric-server" {
+  name       = "metric-server"
+  repository = "https://charts.bitnami.com/bitnami"
+  chart      = "metric-server"
+  version    = "5.10.4"
+  namespace  = "kube-system"
+}
