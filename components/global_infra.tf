@@ -55,4 +55,6 @@ module "eks" {
 module "helm_utility_applications" {
   source       = "../../../modules/global/helm"
   cluster_name = var.cluster_name
+  region       = var.region
+  efs_id       = module.efs.id
 }
