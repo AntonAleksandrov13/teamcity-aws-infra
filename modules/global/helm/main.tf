@@ -24,3 +24,28 @@ resource "helm_release" "nginx-ingress" {
     "${file("../../../modules/global/helm/nginx-ingress.yaml")}"
   ]
 }
+
+resource "helm_release" "efs-provisioner" {
+  name       = "efs-provisioner"
+  repository = "https://charts.helm.sh/stable"
+  chart      = "efs-provisioner"
+  version    = "0.13.2"
+  namespace  = "kube-system"
+
+  set {
+    name  = "efsProvisioner.efsFileSystemId"
+    value = var.efs_id
+  }
+  set {
+    name  = "efsProvisioner.awsRegion"
+    value = var.region
+  }
+  set {
+    name  = "efsProvisioner.provisionerName"
+    value = var.provisioner_name
+  }
+  set {
+    name  = "efsProvisioner.storageClass.name"
+    value = var.storage_class_name
+  }
+}
