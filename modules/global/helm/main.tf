@@ -74,7 +74,6 @@ resource "helm_release" "cluster-autoscaler" {
 data "template_file" "external_dns_values" {
   template = file("../../../modules/global/helm/external_dns.yaml.tpl")
   vars = {
-    serviceacc_name = var.external_dns_serviceacc_name
     region       = var.region
     role_arn     = var.external_dns_role_arn
     txt_owner_id = var.txt_owner_id
