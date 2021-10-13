@@ -100,10 +100,18 @@ resource "helm_release" "cert-manager" {
   namespace  = "kube-system"
 }
 
-resource "helm_release" "metric-server" {
-  name       = "metric-server"
+data "template_file" "metrics_server_values" {
+  template = file("../../../modules/global/helm/metrics_server.yaml.tpl")
+}
+
+resource "helm_release" "metrics-server" {
+  name       = "metrics-server"
   repository = "https://charts.bitnami.com/bitnami"
-  chart      = "metric-server"
-  version    = "0.5.1"
+  chart      = "metrics-server"
+  version    = "5.10.3"
   namespace  = "kube-system"
+
+  values = [
+    data.template_file.metrics_server_values.rendered
+  ]
 }
