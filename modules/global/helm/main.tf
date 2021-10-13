@@ -70,3 +70,25 @@ resource "helm_release" "cluster-autoscaler" {
     data.template_file.cluster_autoscaler_values.rendered
   ]
 }
+
+data "template_file" "external_dns_values" {
+  template = file("../../../modules/global/helm/external_dns.yaml.tpl")
+  vars = {
+    serviceacc_name = var.external_dns_serviceacc_name
+    region       = var.region
+    role_arn     = var.external_dns_role_arn
+    txt_owner_id = var.txt_owner_id
+  }
+}
+
+resource "helm_release" "external-dns" {
+  name       = "external-dns"
+  repository = "https://charts.bitnami.com/bitnami"
+  chart      = "external-dns"
+  version    = "4.4.3"
+  namespace  = "kube-system"
+
+  values = [
+    data.template_file.external_dns_values.rendered
+  ]
+}
