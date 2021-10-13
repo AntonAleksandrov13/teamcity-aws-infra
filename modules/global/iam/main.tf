@@ -1,5 +1,5 @@
 locals {
-  provider_url = trimprefix("https://", var.oidc_url)
+  provider_url = trimprefix(var.oidc_url, "https://")
 }
 
 module "cluster-autoscaler-role" {

@@ -53,7 +53,7 @@ module "efs" {
 }
 
 module "iam" {
-  source = "../../../modules/global/iam"
+  source   = "../../../modules/global/iam"
   oidc_url = module.eks.oidc_url
 }
 
