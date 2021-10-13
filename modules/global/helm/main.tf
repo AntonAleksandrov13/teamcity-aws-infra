@@ -91,3 +91,11 @@ resource "helm_release" "external-dns" {
     data.template_file.external_dns_values.rendered
   ]
 }
+
+resource "helm_release" "cert-manager" {
+  name       = "cert-manager"
+  repository = "https://charts.jetstack.io"
+  chart      = "cert-manager"
+  version    = "1.4.1"
+  namespace  = "kube-system"
+}
