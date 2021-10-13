@@ -24,10 +24,6 @@ variable "cluster_autoscaler_role_arn" {
   type = string
 }
 
-variable "external_dns_serviceacc_name" {
-  type = string
-}
-
 variable "external_dns_role_arn" {
   type = string
 }

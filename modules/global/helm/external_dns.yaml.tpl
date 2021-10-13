@@ -1,5 +1,5 @@
 serviceAccount:
- name: "${serviceacc_name}"
+ name: external-dns
  annotations:
   eks.amazonaws.com/role-arn: "${role_arn}"
 aws:
