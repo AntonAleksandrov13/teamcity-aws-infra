@@ -62,7 +62,7 @@ data "template_file" "cluster_autoscaler_values" {
 resource "helm_release" "cluster-autoscaler" {
   name       = "cluster-autoscaler"
   repository = "https://kubernetes.github.io/autoscaler"
-  chart      = "efs-provisioner"
+  chart      = "cluster-autoscaler"
   version    = "9.9.2"
   namespace  = "kube-system"
 
