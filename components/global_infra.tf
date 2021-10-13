@@ -52,9 +52,15 @@ module "efs" {
   worker_security_group_id = module.eks.worker_security_group_id
 }
 
+module "iam" {
+  source = "../../../modules/global/iam"
+  oidc_url = module.eks.oidc_url
+}
+
 module "helm_utility_applications" {
-  source       = "../../../modules/global/helm"
-  cluster_name = module.eks.cluster_id
-  region       = var.region
-  efs_id       = module.efs.id
+  source                      = "../../../modules/global/helm"
+  cluster_name                = module.eks.cluster_id
+  region                      = var.region
+  efs_id                      = module.efs.id
+  cluster_autoscaler_role_arn = module.iam.cluster_autoscaler_role_arn
 }
