@@ -19,3 +19,7 @@ variable "storage_class_name" {
     type = string
     default = "efs"
 }
+
+variable "cluster_autoscaler_role_arn" {
+  type = string
+}

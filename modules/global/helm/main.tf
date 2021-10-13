@@ -49,3 +49,24 @@ resource "helm_release" "efs-provisioner" {
     value = var.storage_class_name
   }
 }
+
+data "template_file" "cluster_autoscaler_values" {
+  template = file("../../../modules/global/helm/cluster_autoscaler.yaml.tpl")
+  vars = {
+    cluster_name = var.cluster_name
+    region       = var.region
+    role_arn     = var.cluster_autoscaler_role_arn
+  }
+}
+
+resource "helm_release" "cluster-autoscaler" {
+  name       = "cluster-autoscaler"
+  repository = "https://kubernetes.github.io/autoscaler"
+  chart      = "efs-provisioner"
+  version    = "9.9.2"
+  namespace  = "kube-system"
+
+  values = [
+    data.template_file.cluster_autoscaler_values.rendered
+  ]
+}
