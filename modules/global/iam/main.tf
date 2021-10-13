@@ -19,7 +19,7 @@ module "cluster-autoscaler-role" {
   role_policy_arns = [
     module.cluster-autoscaler-policy.arn,
   ]
-  oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:cluster-autoscaler"]
+  oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:cluster-autoscaler-aws-cluster-autoscaler"]
 }
 
 module "cluster-autoscaler-policy" {
