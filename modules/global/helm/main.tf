@@ -104,6 +104,6 @@ resource "helm_release" "metric-server" {
   name       = "metric-server"
   repository = "https://charts.bitnami.com/bitnami"
   chart      = "metric-server"
-  version    = "5.10.4"
+  version    = "0.5.1"
   namespace  = "kube-system"
 }
