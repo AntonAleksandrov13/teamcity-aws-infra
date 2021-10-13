@@ -31,23 +31,23 @@ module "cluster-autoscaler-policy" {
   description = "Allow cluster autoscaler to scale ASGs depending on resource requests and usage"
 
   policy = <<EOF
-  {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Action": [
-                "autoscaling:DescribeAutoScalingGroups",
-                "autoscaling:DescribeAutoScalingInstances",
-                "autoscaling:DescribeLaunchConfigurations",
-                "autoscaling:DescribeTags",
-                "autoscaling:SetDesiredCapacity",
-                "autoscaling:TerminateInstanceInAutoScalingGroup",
-                "ec2:DescribeLaunchTemplateVersions"
-            ],
-            "Resource": "*",
-            "Effect": "Allow"
-        }
-    ]
+{
+"Version": "2012-10-17",
+"Statement": [
+    {
+        "Action": [
+            "autoscaling:DescribeAutoScalingGroups",
+            "autoscaling:DescribeAutoScalingInstances",
+            "autoscaling:DescribeLaunchConfigurations",
+            "autoscaling:DescribeTags",
+            "autoscaling:SetDesiredCapacity",
+            "autoscaling:TerminateInstanceInAutoScalingGroup",
+            "ec2:DescribeLaunchTemplateVersions"
+        ],
+        "Resource": "*",
+        "Effect": "Allow"
+    }
+]
 }
 EOF
 }
