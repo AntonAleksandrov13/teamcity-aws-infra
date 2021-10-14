@@ -9,9 +9,6 @@ terraform {
     aws        = ">= 3.22.0"
     kubernetes = ">= 1.11.1"
   }
-  backend "s3" {
-    workspace_key_prefix = "global_infra"
-  }
 }
 
 module "vpc" {
