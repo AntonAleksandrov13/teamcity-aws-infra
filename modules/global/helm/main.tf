@@ -1,4 +1,21 @@
+
+terraform {
+  required_version = ">= 1.0.0"
+
+  required_providers {
+    aws        = ">= 3.22.0"
+    kubernetes = ">= 1.11.1"
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = ">= 1.7.0"
+    }
+  }
+}
 data "aws_eks_cluster" "eks" {
+  name = var.cluster_name
+}
+
+data "aws_eks_cluster_auth" "eks" {
   name = var.cluster_name
 }
 
@@ -11,6 +28,17 @@ provider "helm" {
       args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
       command     = "aws"
     }
+  }
+}
+provider "kubectl" {
+  apply_retry_count      = 15
+  host                   = data.aws_eks_cluster.eks.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.eks.certificate_authority[0].data)
+  load_config_file       = false
+  exec {
+    api_version = "client.authentication.k8s.io/v1alpha1"
+    args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
+    command     = "aws"
   }
 }
 
@@ -98,6 +126,11 @@ resource "helm_release" "cert-manager" {
   chart      = "cert-manager"
   version    = "1.4.1"
   namespace  = "kube-system"
+
+  set {
+    name  = "installCRDs"
+    value = true
+  }
 }
 
 data "template_file" "metrics_server_values" {
@@ -114,4 +147,9 @@ resource "helm_release" "metrics-server" {
   values = [
     data.template_file.metrics_server_values.rendered
   ]
+}
+
+resource "kubectl_manifest" "cluster-issuer" {
+  provider  = kubectl
+  yaml_body = file("../../../modules/global/helm/self-signed-issuer.yaml")
 }
