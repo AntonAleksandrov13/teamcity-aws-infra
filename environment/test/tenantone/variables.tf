@@ -1,4 +1,7 @@
 variable "tenant_name" {
   type=string
-  default = "tenantone"
+}
+
+variable "vpc_id" {
+  type=string
 }

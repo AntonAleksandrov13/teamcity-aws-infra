@@ -10,4 +10,20 @@ terraform {
     kubernetes = ">= 1.11.1"
   }
 }
+data "terraform_remote_state" "vpc" {
+  backend = "s3"
 
+  config = {
+    region  = var.region
+    encrypt = true
+    key     = "vpc"
+    bucket  = var.terraform_bucket
+  }
+
+  workspace = var.env
+}
+
+module "rds" {
+    source          = "../../../modules/shared/rds"
+    vpc_id = var.vpc_id
+}
