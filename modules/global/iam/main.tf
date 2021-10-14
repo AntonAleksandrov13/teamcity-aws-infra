@@ -1,3 +1,9 @@
+terraform {
+  backend "s3" {
+    key = "iam"
+  }
+}
+
 locals {
   provider_url = trimprefix(var.oidc_url, "https://")
 }

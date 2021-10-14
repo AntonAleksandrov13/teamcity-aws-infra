@@ -8,6 +8,9 @@ terraform {
       version = ">= 1.7.0"
     }
   }
+  backend "s3" {
+    key = "helm"
+  }
 }
 data "aws_eks_cluster" "eks" {
   name = var.cluster_name

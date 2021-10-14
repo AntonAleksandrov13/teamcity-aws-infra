@@ -1,3 +1,8 @@
+terraform {
+  backend "s3" {
+    key = "efs"
+  }
+}
 resource "aws_kms_key" "k8s_efs" {
   tags        = { "Name" = "${var.cluster_name}-k8s-efs" }
   description = "KMS key used by EFS"

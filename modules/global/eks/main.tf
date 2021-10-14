@@ -1,3 +1,8 @@
+terraform {
+  backend "s3" {
+    key = "eks"
+  }
+}
 data "aws_eks_cluster" "eks" {
   name = module.eks.cluster_id
 }

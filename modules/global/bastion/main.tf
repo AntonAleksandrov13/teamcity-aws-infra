@@ -1,3 +1,9 @@
+terraform {
+  backend "s3" {
+    key = "bastion"
+  }
+}
+
 module "ec2-bastion-server" {
   source   = "cloudposse/ec2-bastion-server/aws"
   version  = "0.28.3"

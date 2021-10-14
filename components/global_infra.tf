@@ -10,7 +10,7 @@ terraform {
     kubernetes = ">= 1.11.1"
   }
   backend "s3" {
-    key = "global_infra"
+    workspace_key_prefix = "global_infra"
   }
 }
 
