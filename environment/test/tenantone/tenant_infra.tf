@@ -1,0 +1,1 @@
+../../../components/tenant_infra.tf
