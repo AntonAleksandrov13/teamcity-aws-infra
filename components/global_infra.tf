@@ -34,14 +34,6 @@ module "bastion" {
   subnets = module.vpc.private_subnet_ids
 }
 
-module "efs" {
-  source = "../../../modules/global/efs"
-  vpc_id  = module.vpc.vpc_id
-  cluster_name = var.cluster_name
-  eks_worker_subnets = module.vpc.private_subnet_ids
-  worker_security_group_id = module.eks.worker_security_group_id
-}
-
 module "eks" {
   source             = "../../../modules/global/eks"
   cluster_name       = var.cluster_name
@@ -50,4 +42,28 @@ module "eks" {
   eks_worker_subnets = module.vpc.private_subnet_ids
   eks_master_subnets = module.vpc.private_subnet_ids
   map_users          = var.map_users
+}
+
+module "efs" {
+  source                   = "../../../modules/global/efs"
+  vpc_id                   = module.vpc.vpc_id
+  cluster_name             = module.eks.cluster_id
+  eks_worker_subnets       = module.vpc.private_subnet_ids
+  worker_security_group_id = module.eks.worker_security_group_id
+}
+
+module "iam" {
+  source   = "../../../modules/global/iam"
+  oidc_url = module.eks.oidc_url
+}
+
+module "helm_utility_applications" {
+  source                      = "../../../modules/global/helm"
+  cluster_name                = module.eks.cluster_id
+  region                      = var.region
+  efs_id                      = module.efs.id
+  cluster_autoscaler_role_arn = module.iam.cluster_autoscaler_role_arn
+  external_dns_role_arn       = module.iam.external_dns_role_arn
+  txt_owner_id                = module.route53.txt_owner_id
+
 }
