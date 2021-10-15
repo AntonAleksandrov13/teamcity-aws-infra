@@ -53,7 +53,7 @@ jobs:
         uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
         env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+          PLAN: "terraform\n${{ steps.plan.outputs_global.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -67,7 +67,7 @@ jobs:
             <details><summary>Show Plan</summary>
 
             \`\`\`\n
-            ${process.env.PLAN_GLOBAL}
+            ${process.env.PLAN}
             \`\`\`
 
             </details>
@@ -110,12 +110,12 @@ jobs:
         uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
         env:
-          PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+          PLAN: "terraform\n${{ steps.plan.outputs_tenantone.stdout }}"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `
-            ## Global infra report
+            ## Tenantone infra report
             #### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init_tenantone.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan_tenantone.outcome }}\`
@@ -124,7 +124,7 @@ jobs:
             <details><summary>Show Plan</summary>
 
             \`\`\`\n
-            ${process.env.PLAN_TENANTONE}
+            ${process.env.PLAN}
             \`\`\`
 
             </details>
