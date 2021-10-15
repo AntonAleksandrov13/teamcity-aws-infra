@@ -30,9 +30,8 @@ module "security_group" {
   ]
 }
 resource "random_password" "password" {
-  length           = 16
-  special          = true
-  override_special = "_%@"
+  length  = 32
+  special = false
 }
 
 module "db" {
