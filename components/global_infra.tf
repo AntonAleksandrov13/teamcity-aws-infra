@@ -67,3 +67,15 @@ module "helm_utility_applications" {
   txt_owner_id                = module.route53.txt_owner_id
 
 }
+
+output "private_subnet_ids" {
+  value = module.vpc.private_subnet_ids
+}
+
+output "eks_worker_sg" {
+  value = module.eks.worker_security_group_id
+}
+
+output "oidc_url" {
+  value = module.eks.oidc_url
+}
