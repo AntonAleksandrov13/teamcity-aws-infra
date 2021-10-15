@@ -13,6 +13,10 @@ variable "eks_worker_sg_id" {
   type = string
 }
 
+variable "db_subnets" {
+  type = string
+}
+
 variable "engine" {
   type    = string
   default = "mysql"
