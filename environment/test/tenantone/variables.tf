@@ -2,6 +2,10 @@ variable "tenant_name" {
   type=string
 }
 
-variable "vpc_id" {
-  type=string
+variable "region" {
+  type = string
+}
+
+variable "terraform_bucket" {
+  type = string
 }

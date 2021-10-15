@@ -1,2 +1,3 @@
 tenant_name = "tenantone"
-vpc_id = "teamcity-multi-tenant"
+region = "eu-west-1"
+terraform_bucket = "terraform-state-teamcity-test-task-eu-west-1"
