@@ -29,3 +29,8 @@ module "rds" {
   bastion_sg_id    = data.terraform_remote_state.global_infra.outputs.bastion_sg_id
   subnet_ids       = data.terraform_remote_state.global_infra.outputs.private_subnet_ids
 }
+
+module "s3" {
+  source           = "../../../modules/shared/s3"
+  tenant_name      = var.tenant_name
+}
