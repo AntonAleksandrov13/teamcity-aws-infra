@@ -1,4 +1,11 @@
 variable "tenant_name" {
   type=string
-  default = "tenantone"
+}
+
+variable "region" {
+  type = string
+}
+
+variable "terraform_bucket" {
+  type = string
 }

@@ -67,13 +67,20 @@ module "helm_utility_applications" {
   txt_owner_id                = module.route53.txt_owner_id
 
 }
+output "vpc_id" {
+  value = module.vpc.vpc_id
+}
 
 output "private_subnet_ids" {
   value = module.vpc.private_subnet_ids
 }
 
-output "eks_worker_sg" {
+output "eks_worker_sg_id" {
   value = module.eks.worker_security_group_id
+}
+
+output "bastion_sg_id" {
+  value = module.bastion.bastion_sg_id
 }
 
 output "oidc_url" {
