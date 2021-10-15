@@ -1,5 +1,11 @@
 locals {
-  name = "rds-${var.tenant_name}"
+  #remove any special characters from string as RDS does not accept anything but alphabetic letters
+  name = replace(var.tenant_name, "/\\W|_|\\s/", "")
+  #t2... instances cannot enable at rest encryption or performance insightsname
+  #if instance contains t2... we disable these properties, else variable with the default value is used
+  is_t2_instance_class         = length(regexall(".t2.", var.instance_class)) > 0
+  storage_encrypted            = local.is_t2_instance_class ? false : var.storage_encrypted
+  performance_insights_enabled = local.is_t2_instance_class ? false : var.performance_insights_enabled
 }
 
 module "security_group" {
@@ -43,7 +49,7 @@ module "db" {
 
   allocated_storage     = var.allocated_storage
   max_allocated_storage = var.max_allocated_storage
-  storage_encrypted     = var.storage_encrypted
+  storage_encrypted     = local.storage_encrypted
 
   name     = local.name
   username = local.name
@@ -51,7 +57,7 @@ module "db" {
   port     = 3306
 
   multi_az               = var.multi_az
-  subnet_ids             = var.db_subnets
+  subnet_ids             = var.subnet_ids
   vpc_security_group_ids = [module.security_group.security_group_id]
 
   maintenance_window              = var.maintenance_window
@@ -62,7 +68,7 @@ module "db" {
   skip_final_snapshot     = var.skip_final_snapshot
   deletion_protection     = var.deletion_protection
 
-  performance_insights_enabled          = var.performance_insights_enabled
+  performance_insights_enabled          = local.performance_insights_enabled
   performance_insights_retention_period = var.performance_insights_retention_period
   create_monitoring_role                = var.create_monitoring_role
   monitoring_interval                   = var.monitoring_interval

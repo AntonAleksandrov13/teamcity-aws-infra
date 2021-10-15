@@ -13,10 +13,6 @@ variable "eks_worker_sg_id" {
   type = string
 }
 
-variable "db_subnets" {
-  type = string
-}
-
 variable "engine" {
   type    = string
   default = "mysql"
@@ -87,6 +83,16 @@ variable "backup_retention_period" {
 }
 
 variable "skip_final_snapshot" {
+  type    = bool
+  default = true
+}
+
+variable "deletion_protection" {
+  type    = bool
+  default = false
+}
+
+variable "performance_insights_enabled" {
   type    = bool
   default = true
 }
