@@ -27,4 +27,5 @@ module "rds" {
   vpc_id           = data.terraform_remote_state.global_infra.outputs.vpc_id
   eks_worker_sg_id = data.terraform_remote_state.global_infra.outputs.eks_worker_sg_id
   bastion_sg_id    = data.terraform_remote_state.global_infra.outputs.bastion_sg_id
+  db_subnets       = data.terraform_remote_state.global_infra.outputs.private_subnet_ids
 }
