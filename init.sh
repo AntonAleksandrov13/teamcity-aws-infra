@@ -15,7 +15,7 @@ for f in ./environment/$env/*; do
     if [ "$f" != "./environment/$env/global" ]  && ( [ "$work_on" == "all" ]  ||  [ "$f" == "./environment/$env/$work_on" ] ); then
         echo "Working on $f"
         cd $f
-        terraform init -backend-config=../../../backends/$env.tfvars
+        yes | rm -r ./.terraform* || true && terraform init -backend-config=../../../backends/$env.tfvars
         cd ../../../
     fi
 done

@@ -31,6 +31,14 @@ module "rds" {
 }
 
 module "s3" {
-  source           = "../../../modules/shared/s3"
-  tenant_name      = var.tenant_name
+  source      = "../../../modules/shared/s3"
+  tenant_name = var.tenant_name
+}
+
+module "iam" {
+  source            = "../../../modules/shared/iam"
+  tenant_name       = var.tenant_name
+  tenant_namespace  = var.tenant_namespace
+  tenant_bucket_arn = module.s3.bucket_arn
+  oidc_url = data.terraform_remote_state.global_infra.outputs.oidc_url
 }
