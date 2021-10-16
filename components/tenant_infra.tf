@@ -34,3 +34,9 @@ module "s3" {
   source           = "../../../modules/shared/s3"
   tenant_name      = var.tenant_name
 }
+
+module "iam" {
+    source           = "../../../modules/shared/iam"
+    tenant = var.tenant_name
+    tenant_namespace = var.tenant_namespace
+}
