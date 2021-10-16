@@ -5,7 +5,7 @@
         "Effect": "Allow",
         "Action": [
             "s3:ListBucket",
-            "s3:PutObject",
+            "s3:PutObject"
         ],
         "Resource": [
             "${resource}",
