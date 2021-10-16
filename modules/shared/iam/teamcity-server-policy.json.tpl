@@ -4,12 +4,10 @@
         "Sid": "VisualEditor1",
         "Effect": "Allow",
         "Action": [
-            "s3:ListBucket",
             "s3:DeleteObject",
             "s3:GetObject",
-            "s3:GetObjectAcl",
-            "s3:PutObject",
-            "s3:PutObjectAcl"
+            "s3:GetBucketLocation",
+            "s3:ListAllMyBuckets",
         ],
         "Resource": [
             "${resource}",
