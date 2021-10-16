@@ -25,7 +25,7 @@ module "tenant-server-role" {
 }
 
 data "template_file" "tenant-server-policy" {
-  template = file("../../../modules/shared/s3/teamcity-server-policy.json.tpl")
+  template = file("../../../modules/shared/iam/server-policy.json.tpl")
   vars = {
     resource = var.tenant_bucket_arn
   }
@@ -33,7 +33,7 @@ data "template_file" "tenant-server-policy" {
 
 resource "aws_iam_role_policy" "tenant-server-policy" {
   name   = local.server_policy_name
-  role   = module.tenant_server_role.iam_role_unique_id
+  role   = module.tenant-server-role.iam_role_name
   policy = data.template_file.tenant-server-policy.rendered
 }
 
@@ -53,7 +53,7 @@ module "tenant-agent-role" {
 }
 
 data "template_file" "tenant-agent-policy" {
-  template = file("../../../modules/shared/s3/teamcity-agent-policy.json.tpl")
+  template = file("../../../modules/shared/iam/agent-policy.json.tpl")
   vars = {
     resource = var.tenant_bucket_arn
   }
@@ -61,6 +61,6 @@ data "template_file" "tenant-agent-policy" {
 
 resource "aws_iam_role_policy" "tenant-agent-policy" {
   name   = local.agent_policy_name
-  role   = module.teamcity_agent_role.iam_role_unique_id
+  role   = module.tenant-agent-role.iam_role_name
   policy = data.template_file.tenant-agent-policy.rendered
 }
