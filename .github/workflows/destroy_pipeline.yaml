@@ -26,9 +26,17 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       # Step 5
-      - name: Terraform Destroy
+      - name: Terraform Tenantone Destroy
         id: destroy
-        run: chmod +x ./destroy.sh && ./destroy.sh test
+        run: chmod +x ./destroy.sh && ./destroy.sh test tenantone
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      # Step 6
+      - name: Terraform Global Destroy
+        id: destroy
+        run: chmod +x ./destroy.sh && ./destroy.sh test global
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
