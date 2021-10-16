@@ -9,3 +9,7 @@ variable "region" {
 variable "terraform_bucket" {
   type = string
 }
+
+variable "tenant_namespace" {
+  type = string
+}
