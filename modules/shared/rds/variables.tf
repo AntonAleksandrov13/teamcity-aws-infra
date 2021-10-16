@@ -55,7 +55,7 @@ variable "storage_encrypted" {
 
 variable "multi_az" {
   type    = bool
-  default = true
+  default = false
 }
 
 variable "subnet_ids" {
