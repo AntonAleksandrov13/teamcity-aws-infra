@@ -26,7 +26,7 @@ variable "private_subnets" {
 }
 
 variable "route53_zones" {
-  type = any
+  type    = any
   default = {}
 }
 
@@ -45,4 +45,12 @@ variable "map_users" {
 
 variable "instance_type" {
   type = string
+}
+
+variable "desired_eks_workers_per_asg" {
+  type = number
+}
+
+variable "min_eks_workers_per_asg" {
+  type = number
 }

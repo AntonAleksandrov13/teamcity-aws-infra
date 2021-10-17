@@ -38,6 +38,8 @@ module "eks" {
   source             = "../../../modules/global/eks"
   cluster_name       = var.cluster_name
   instance_type      = var.instance_type
+  desired_eks_workers_per_asg = var.desired_eks_workers_per_asg
+  min_eks_workers_per_asg = var.min_eks_workers_per_asg
   vpc_id             = module.vpc.vpc_id
   eks_worker_subnets = module.vpc.private_subnet_ids
   eks_master_subnets = module.vpc.private_subnet_ids
