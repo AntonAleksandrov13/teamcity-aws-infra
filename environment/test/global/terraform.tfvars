@@ -25,3 +25,5 @@ map_users = [
   }
 ]
 instance_type = "t2.micro"
+desired_eks_workers_per_asg = 1
+min_eks_workers_per_asg = 1
