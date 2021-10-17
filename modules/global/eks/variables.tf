@@ -85,10 +85,10 @@ variable "max_eks_workers_per_asg" {
 
 variable "desired_eks_workers_per_asg" {
   type = number
-  default = 2
+  default = 1
 }
 
 variable "min_eks_workers_per_asg" {
   type = number
-  default = 2
+  default = 1
 }
