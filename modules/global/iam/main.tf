@@ -107,3 +107,70 @@ module "external-dns-policy" {
 }
 EOF
 }
+
+module "aws-efs-csi-driver-role" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
+  version = "~> 4.3"
+
+  create_role = true
+
+  role_name = "aws-efs-csi-driver"
+
+  tags = {
+    Role = "aws-efs-csi-driver-with-oidc"
+  }
+
+  provider_url = local.provider_url
+
+  role_policy_arns = [
+    module.aws-efs-csi-driver-policy.arn,
+  ]
+  oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:efs-csi-controller-sa"]
+}
+
+module "aws-efs-csi-driver-policy" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
+  version = "~> 4.3"
+
+  name        = "aws-efs-csi-driver-policy"
+  path        = "/"
+  description = "Provision EFS from Kubernetes PVCs"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "elasticfilesystem:DescribeAccessPoints",
+        "elasticfilesystem:DescribeFileSystems"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "elasticfilesystem:CreateAccessPoint"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringLike": {
+          "aws:RequestTag/efs.csi.aws.com/cluster": "true"
+        }
+      }
+    },
+    {
+      "Effect": "Allow",
+      "Action": "elasticfilesystem:DeleteAccessPoint",
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceTag/efs.csi.aws.com/cluster": "true"
+        }
+      }
+    }
+  ]
+}
+EOF
+}
