@@ -8,6 +8,4 @@ mountOptions:
 parameters:
   provisioningMode: efs-ap
   fileSystemId: ${fs_id}
-  directoryPerms: "1000"
-  gidRangeStart: "999"
-  gidRangeEnd: "1001"
+  directoryPerms: "775"
