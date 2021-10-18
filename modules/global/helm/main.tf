@@ -51,9 +51,9 @@ resource "helm_release" "nginx-ingress" {
   ]
 }
 data "template_file" "aws_efs_csi_driver_values" {
-  template = file("../../../modules/global/helm/cluster_autoscaler.yaml.tpl")
+  template = file("../../../modules/global/helm/aws-efs-csi-driver.yaml.tpl")
   vars = {
-    role_arn     = var.aws_efs_csi_driver_role_arn
+    role_arn = var.aws_efs_csi_driver_role_arn
   }
 }
 
@@ -142,4 +142,16 @@ resource "helm_release" "metrics-server" {
 resource "kubectl_manifest" "cluster-issuer" {
   provider  = kubectl
   yaml_body = file("../../../modules/global/helm/self-signed-issuer.yaml")
+}
+
+data "template_file" "efs_storage_class" {
+  template = file("../../../modules/global/helm/efs-storageclass.yaml.tpl")
+  vars = {
+    "fs_id" = var.efs_id
+  }
+}
+
+resource "kubectl_manifest" "efs-storage-class" {
+  provider  = kubectl
+  yaml_body = data.template_file.efs_storage_class.rendered
 }
