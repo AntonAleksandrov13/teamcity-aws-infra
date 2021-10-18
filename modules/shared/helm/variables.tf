@@ -6,7 +6,7 @@ variable "tenant_name" {
   type = string
 }
 
-variable "region" {
+variable "tenant_namespace" {
   type = string
 }
 
@@ -39,7 +39,7 @@ variable "agent_role_arn" {
   type = string
 }
 
-variable "service_suffic" {
+variable "service_suffix" {
   type    = string
   default = "-teamcity"
 }
