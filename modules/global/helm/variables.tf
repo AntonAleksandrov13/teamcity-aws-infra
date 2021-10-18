@@ -10,6 +10,10 @@ variable "region" {
   type = string
 }
 
+variable "aws_efs_csi_driver_role_arn" {
+  type = string
+}
+
 variable "provisioner_name" {
   type    = string
   default = "example.com/efs"
