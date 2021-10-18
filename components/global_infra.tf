@@ -88,3 +88,7 @@ output "bastion_sg_id" {
 output "oidc_url" {
   value = module.eks.oidc_url
 }
+
+output "cluster_name" {
+  value = var.cluster_name
+}
