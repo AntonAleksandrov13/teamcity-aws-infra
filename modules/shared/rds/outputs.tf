@@ -7,3 +7,6 @@ output "db_password" {
 output "db_name" {
   value = module.db.db_instance_name
 }
+output "db_host" {
+  value = module.db.db_instance_endpoint
+}
