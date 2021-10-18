@@ -19,7 +19,7 @@ server:
     accessModes:
       - ReadWriteMany
     size: 3Gi
-    storageClass: "${storageClass}"
+    storageClass: "${storage_class}"
   db:
     user: ${db_user}"
     password: ${db_password}"
