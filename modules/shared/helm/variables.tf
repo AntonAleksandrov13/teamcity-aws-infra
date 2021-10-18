@@ -41,5 +41,5 @@ variable "agent_role_arn" {
 
 variable "service_suffix" {
   type    = string
-  default = "-teamcity"
+  default = "teamcity"
 }
