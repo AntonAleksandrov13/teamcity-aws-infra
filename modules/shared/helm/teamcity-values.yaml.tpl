@@ -2,74 +2,57 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 server:
-  replicaCount: 1
   image:
-    repository: jetbrains/teamcity-server
-    pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is the chart appVersion.
     tag: latest
   plugins:
     teamcity-oauth-1.1.6.zip: https://github.com/pwielgolaski/teamcity-oauth/releases/download/teamcity-oauth-1.1.6/teamcity-oauth-1.1.6.zip
     teamcity-kubernetes-plugin.zip: https://teamcity.jetbrains.com/guestAuth/app/rest/builds/buildType:TeamCityPluginsByJetBrains_TeamCityKubernetesPlugin_Build20172x,tags:release/artifacts/content/teamcity-kubernetes-plugin.zip
-  imagePullSecrets: []
-  nameOverride: ""
-  fullnameOverride: ""
 
   logging:
-    enabled: true
+    enabled: false
 
   networkPolicy:
-    enabled: true
+    enabled: false
 
   persistentDataDir:
     enabled: true
     accessModes:
       - ReadWriteMany
     size: 3Gi
-    storageClass: "manual"
+    storageClass: "${storageClass}"
   db:
-    user: root
-    password: db-password
-    name: db-name
+    user: ${db_user}"
+    password: ${db_password}"
+    name: ${db_name}"
     port: 3306
-    host: some-db-mysql
+    host: ${db_host}"
 
   serviceAccount:
-    # Specifies whether a service account should be created
-    create: true
-    # Annotations to add to the service account
-    annotations: {}
-    # The name of the service account to use.
-    # If not set and create is true, a name is generated using the fullname template
-    name: teamcity-server
-
-  podAnnotations: {}
-
-  podSecurityContext:
-    fsGroup: 1000
-  securityContext: {}
-
-  service:
-    type: ClusterIP
-    port: 80
+    annotations:
+      eks.amazonaws.com/role-arn: "${role_arn}"
 
   ingress:
-    enabled: false
+    enabled: true
     className: ""
     annotations:
-      {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: ${cluster_issuer}"
+      cert-manager.io/common-name: ${common_name}
     hosts:
-      - host: chart-example.local
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-    tls: []
-    #  - secretName: chart-example-tls
-    #    hosts:
-    #      - chart-example.local
-
+      - host: ${common_name}
+        http:
+          paths:
+            - backend:
+                service:
+                  name: ${common_name}
+                  port:
+                    name: web
+              pathType: ImplementationSpecific
+    tls:
+      - hosts:
+          - ${common_name}
+        secretName: ${common_name}
   resources:
     {}
     # limits:
@@ -78,48 +61,19 @@ server:
     # requests:
     #   cpu: "350m"
     #   memory: "400Mi"
-
-  autoscaling:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 100
-    targetCPUUtilizationPercentage: 80
-    # targetMemoryUtilizationPercentage: 80
-
-  nodeSelector: {}
-
-  tolerations: []
-
-  affinity: {}
 
 agent:
   replicaCount: 1
   image:
-    repository: jetbrains/teamcity-agent
-    pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is the chart appVersion.
     tag: latest
 
-  imagePullSecrets: []
-  nameOverride: ""
-  fullnameOverride: ""
-
   logging:
-    enabled: true
+    enabled: false
 
   serviceAccount:
-    # Specifies whether a service account should be created
     create: true
-    # Annotations to add to the service account
-    annotations: {}
-    # The name of the service account to use.
-    # If not set and create is true, a name is generated using the fullname template
-    name: teamcity-agent
-
-  podAnnotations: {}
-
-  podSecurityContext: {}
-  securityContext: {}
+    annotations:
+      eks.amazonaws.com/role-arn: "${role_arn}"
 
   resources:
     {}
@@ -129,19 +83,6 @@ agent:
     # requests:
     #   cpu: "350m"
     #   memory: "400Mi"
-
-  autoscaling:
-    enabled: false
-    minReplicas: 1
-    maxReplicas: 100
-    targetCPUUtilizationPercentage: 80
-    # targetMemoryUtilizationPercentage: 80
-
-  nodeSelector: {}
-
-  tolerations: []
-
-  affinity: {}
 
 global:
   resource_quota:
