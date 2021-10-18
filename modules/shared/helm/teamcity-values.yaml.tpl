@@ -21,32 +21,32 @@ server:
     size: 3Gi
     storageClass: "${storage_class}"
   db:
-    user: ${db_user}"
-    password: ${db_password}"
-    name: ${db_name}"
-    port: 3306
-    host: ${db_host}"
+    user: ${db_user}
+    password: ${db_password}
+    name: ${db_name}
+    port: ""
+    host: ${db_host}
 
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "${server_role_arn}"
 
+      
   ingress:
     enabled: true
     annotations:
       kubernetes.io/ingress.class: nginx
-      cert-manager.io/cluster-issuer: ${cluster_issuer}"
+      cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
       cert-manager.io/common-name: ${common_name}
     hosts:
       - host: ${common_name}
-        http:
-          paths:
-            - backend:
-                service:
-                  name: ${service_name}
-                  port:
-                    name: web
-              pathType: ImplementationSpecific
+        paths:
+          - backend:
+              service:
+                name: ${service_name}
+                port:
+                  name: web
+            pathType: ImplementationSpecific
     tls:
       - hosts:
           - ${common_name}
