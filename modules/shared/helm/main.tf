@@ -1,5 +1,5 @@
 locals {
-  tenant_name = replace(var.tenant_name, "/\\W|_|\\s/", "")
+  tenant_name  = replace(var.tenant_name, "/\\W|_|\\s/", "")
   service_name = "${local.tenant_name}-${var.service_suffix}"
 }
 terraform {
@@ -31,25 +31,27 @@ provider "helm" {
 data "template_file" "tenant_teamcity_values" {
   template = file("../../../modules/shared/helm/teamcity-values.yaml.tpl")
   vars = {
-    storage_class = var.storage_class
-    db_user = var.db_user
-    db_password = var.db_password
-    db_name = var.db_name
-    db_host = var.db_host
+    storage_class   = var.storage_class
+    db_user         = var.db_user
+    db_password     = var.db_password
+    db_name         = var.db_name
+    db_host         = var.db_host
     server_role_arn = var.server_role_arn
-    agent_role_arn = var.agent_role_arn
-    service_name = local.service_name
+    agent_role_arn  = var.agent_role_arn
+    service_name    = local.service_name
+    common_name     = "tenant-one.teamcity-anton-cloud.com"
   }
 }
 
 resource "helm_release" "tenant-teamcity" {
-  name       = local.tenant_name
-  repository = "https://antonaleksandrov13.github.io/teamcity-chart"
-  chart      = "teamcity"
-  version    = "0.5.0"
-  namespace  = local.tenant_name
+  name             = local.tenant_name
+  repository       = "https://antonaleksandrov13.github.io/teamcity-chart"
+  chart            = "teamcity"
+  version          = "0.5.0"
+  namespace        = var.tenant_namespace
+  create_namespace = true
   values = [
-    "${file("../../../modules/shared/helm/teamcity-values.yaml.tpl")}"
+    data.template_file.tenant_teamcity_values.rendered
   ]
 }
 
