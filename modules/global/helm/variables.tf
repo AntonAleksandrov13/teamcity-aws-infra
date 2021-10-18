@@ -10,14 +10,8 @@ variable "region" {
   type = string
 }
 
-variable "provisioner_name" {
-  type    = string
-  default = "example.com/efs"
-}
-
-variable "storage_class_name" {
-  type    = string
-  default = "efs"
+variable "aws_efs_csi_driver_role_arn" {
+  type = string
 }
 
 variable "cluster_autoscaler_role_arn" {

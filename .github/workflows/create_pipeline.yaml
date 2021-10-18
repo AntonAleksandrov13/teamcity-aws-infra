@@ -81,10 +81,22 @@ jobs:
               body: output
             })
       # Step 9
+      - name: Terraform plan global status
+        if: steps.plan_global.outcome == 'failure'
+        run: exit 1
+      # Step 10
+      - name: Terraform apply global
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: chmod +x ./apply.sh && ./apply.sh test global
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      # Step 11
       - name: Create symlinks tenantone
         id: symlinks_tenantone
         run: chmod +x ./create_symlinks.sh && ./create_symlinks.sh test tenantone
-      # Step 10
+      # Step 12
       - name: Terraform init tenantone
         id: init_tenantone
         run: chmod +x ./init.sh && ./init.sh test tenantone
@@ -92,11 +104,11 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-      # Step 11
+      # Step 13
       - name: Terraform validate tenantone
         id: validate_tenantone
         run: chmod +x ./validate.sh && ./validate.sh test tenantone
-      # Step 12
+      # Step 14
       - name: Terraform plan tenantone
         id: plan_tenantone
         run: chmod +x ./plan.sh && ./plan.sh test tenantone
@@ -105,7 +117,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-      # Step 12
+      # Step 15
       - name: Update Pull Request
         uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
@@ -137,22 +149,10 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
-      # Step 14
-      - name: Terraform plan global status
-        if: steps.plan_global.outcome == 'failure'
-        run: exit 1
-      # Step 15
-      - name: Terraform plan tenantone status
-        if: steps.plan_tenatone.outcome == 'failure'
-        run: exit 1
       # Step 16
-      - name: Terraform apply global
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: chmod +x ./apply.sh && ./apply.sh test global
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      - name: Terraform plan tenant status
+        if: steps.plan_tenant.outcome == 'failure'
+        run: exit 1
       # Step 17
       - name: Terraform apply tenant
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'

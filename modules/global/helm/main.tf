@@ -50,30 +50,22 @@ resource "helm_release" "nginx-ingress" {
     "${file("../../../modules/global/helm/nginx-ingress.yaml")}"
   ]
 }
+data "template_file" "aws_efs_csi_driver_values" {
+  template = file("../../../modules/global/helm/aws-efs-csi-driver.yaml.tpl")
+  vars = {
+    role_arn = var.aws_efs_csi_driver_role_arn
+  }
+}
 
-resource "helm_release" "efs-provisioner" {
-  name       = "efs-provisioner"
-  repository = "https://charts.helm.sh/stable"
-  chart      = "efs-provisioner"
-  version    = "0.13.2"
+resource "helm_release" "aws-efs-csi-driver" {
+  name       = "aws-efs-csi-driver"
+  repository = "https://kubernetes-sigs.github.io/aws-efs-csi-driver/"
+  chart      = "aws-efs-csi-driver"
+  version    = "2.2.0"
   namespace  = "kube-system"
-
-  set {
-    name  = "efsProvisioner.efsFileSystemId"
-    value = var.efs_id
-  }
-  set {
-    name  = "efsProvisioner.awsRegion"
-    value = var.region
-  }
-  set {
-    name  = "efsProvisioner.provisionerName"
-    value = var.provisioner_name
-  }
-  set {
-    name  = "efsProvisioner.storageClass.name"
-    value = var.storage_class_name
-  }
+  values = [
+    data.template_file.aws_efs_csi_driver_values.rendered
+  ]
 }
 
 data "template_file" "cluster_autoscaler_values" {
@@ -150,4 +142,16 @@ resource "helm_release" "metrics-server" {
 resource "kubectl_manifest" "cluster-issuer" {
   provider  = kubectl
   yaml_body = file("../../../modules/global/helm/self-signed-issuer.yaml")
+}
+
+data "template_file" "efs_storage_class" {
+  template = file("../../../modules/global/helm/efs-storageclass.yaml.tpl")
+  vars = {
+    "fs_id" = var.efs_id
+  }
+}
+
+resource "kubectl_manifest" "efs-storage-class" {
+  provider  = kubectl
+  yaml_body = data.template_file.efs_storage_class.rendered
 }

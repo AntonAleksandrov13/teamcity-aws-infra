@@ -42,3 +42,31 @@ module "iam" {
   tenant_bucket_arn = module.s3.bucket_arn
   oidc_url          = data.terraform_remote_state.global_infra.outputs.oidc_url
 }
+
+module "helm" {
+  source           = "../../../modules/shared/helm"
+  tenant_name      = var.tenant_name
+  tenant_namespace = var.tenant_namespace
+  cluster_name     = data.terraform_remote_state.global_infra.outputs.cluster_name
+  db_user          = module.rds.db_user
+  db_password      = module.rds.db_password
+  db_host          = module.rds.db_host
+  db_name          = module.rds.db_name
+  agent_role_arn   = module.iam.agent_role_arn
+  server_role_arn  = module.iam.server_role_arn
+}
+
+
+# todo: remove it, only used for testing
+# output "db_user" {
+#   value = nonsensitive(module.rds.db_user)
+# }
+# output "db_password" {
+#   value = nonsensitive(module.rds.db_password)
+# }
+# output "db_name" {
+#   value = module.rds.db_name
+# }
+# output "db_host" {
+#   value = module.rds.db_host
+# }

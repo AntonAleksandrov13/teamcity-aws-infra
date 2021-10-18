@@ -25,6 +25,6 @@ map_users = [
   }
 ]
 #TEST VALUES NOT TO BE USED IN PRODUCTION
-instance_type               = "t3.medium"
+instance_type               = "t2.medium"
 desired_eks_workers_per_asg = 1
 min_eks_workers_per_asg     = 0

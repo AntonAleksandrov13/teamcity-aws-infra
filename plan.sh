@@ -4,7 +4,7 @@ work_on=${2:-all}
 
 echo "Running terraform plan in environment: ${env}"
 if [ "$work_on" == "global" ] || [ "$work_on" == "all" ] ; then
-    echo "Creating global symlinks..."
+    echo "Working on global"
     cd ./environment/$env/global
     terraform plan -out=out.json -no-color
     cd ../../../
