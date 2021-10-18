@@ -29,14 +29,12 @@ server:
 
   serviceAccount:
     annotations:
-      eks.amazonaws.com/role-arn: "${role_arn}"
+      eks.amazonaws.com/role-arn: "${server_role_arn}"
 
   ingress:
     enabled: true
-    className: ""
     annotations:
       kubernetes.io/ingress.class: nginx
-      kubernetes.io/tls-acme: "true"
       cert-manager.io/cluster-issuer: ${cluster_issuer}"
       cert-manager.io/common-name: ${common_name}
     hosts:
@@ -45,7 +43,7 @@ server:
           paths:
             - backend:
                 service:
-                  name: ${common_name}
+                  name: ${service_name}
                   port:
                     name: web
               pathType: ImplementationSpecific
@@ -73,7 +71,7 @@ agent:
   serviceAccount:
     create: true
     annotations:
-      eks.amazonaws.com/role-arn: "${role_arn}"
+      eks.amazonaws.com/role-arn: "${agent_role_arn}"
 
   resources:
     {}
