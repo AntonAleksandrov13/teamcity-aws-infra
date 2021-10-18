@@ -12,7 +12,7 @@ variable "tenant_namespace" {
 
 variable "storage_class" {
   type    = string
-  default = "efs"
+  default = "efs-sc"
 }
 
 variable "db_user" {

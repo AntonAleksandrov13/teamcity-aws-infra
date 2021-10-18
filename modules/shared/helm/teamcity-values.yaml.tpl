@@ -6,8 +6,7 @@ server:
     tag: latest
   plugins:
     teamcity-oauth-1.1.6.zip: https://github.com/pwielgolaski/teamcity-oauth/releases/download/teamcity-oauth-1.1.6/teamcity-oauth-1.1.6.zip
-    teamcity-kubernetes-plugin.zip: https://teamcity.jetbrains.com/guestAuth/app/rest/builds/buildType:TeamCityPluginsByJetBrains_TeamCityKubernetesPlugin_Build20172x,tags:release/artifacts/content/teamcity-kubernetes-plugin.zip
-
+    s3-artifact-storage.zip: https://teamcity.jetbrains.com/guestAuth/app/rest/builds/id:2901620/artifacts/content/s3-artifact-storage.zip
   logging:
     enabled: false
 
@@ -24,28 +23,22 @@ server:
     user: ${db_user}
     password: ${db_password}
     name: ${db_name}
-    port: ""
     host: ${db_host}
 
   serviceAccount:
     annotations:
       eks.amazonaws.com/role-arn: "${server_role_arn}"
 
-      
   ingress:
     enabled: true
+    className: nginx
     annotations:
-      kubernetes.io/ingress.class: nginx
       cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
       cert-manager.io/common-name: ${common_name}
     hosts:
       - host: ${common_name}
         paths:
-          - backend:
-              service:
-                name: ${service_name}
-                port:
-                  name: web
+          - path: /
             pathType: ImplementationSpecific
     tls:
       - hosts:
