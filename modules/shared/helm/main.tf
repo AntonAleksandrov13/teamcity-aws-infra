@@ -49,7 +49,7 @@ resource "helm_release" "tenant-teamcity" {
   name             = local.tenant_name
   repository       = "https://antonaleksandrov13.github.io/teamcity-chart"
   chart            = "teamcity"
-  version          = "0.6.0"
+  version          = "0.7.0"
   namespace        = var.tenant_namespace
   create_namespace = true
   values = [
