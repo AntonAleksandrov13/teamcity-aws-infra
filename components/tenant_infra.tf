@@ -54,6 +54,7 @@ module "helm" {
   db_name          = module.rds.db_name
   agent_role_arn   = module.iam.agent_role_arn
   server_role_arn  = module.iam.server_role_arn
+  bucket           = module.s3.bucket_name
 }
 
 

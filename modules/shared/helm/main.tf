@@ -39,6 +39,8 @@ data "template_file" "tenant_teamcity_values" {
     server_role_arn = var.server_role_arn
     agent_role_arn  = var.agent_role_arn
     service_name    = local.service_name
+    bucket = var.bucket
+    prefix = var.prefix
     common_name     = "tenant-one.teamcity-anton-cloud.com"
   }
 }
