@@ -7,13 +7,14 @@ module "s3_bucket" {
   bucket = local.bucket_name
   acl    = "private"
 
-#todo enable in the future
-# logging = {
-#     target_bucket = module.log_bucket.s3_bucket_id
-#     target_prefix = "log/"
-# }
+  acceleration_status = var.acceleration_status
+
+  #todo enable in the future
+  # logging = {
+  #     target_bucket = module.log_bucket.s3_bucket_id
+  #     target_prefix = "log/"
+  # }
   versioning = {
     enabled = false
   }
-
 }
