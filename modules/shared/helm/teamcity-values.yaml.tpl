@@ -7,6 +7,10 @@ server:
   plugins:
     teamcity-oauth-1.1.6.zip: https://github.com/pwielgolaski/teamcity-oauth/releases/download/teamcity-oauth-1.1.6/teamcity-oauth-1.1.6.zip
     s3-artifact-storage.zip: https://teamcity.jetbrains.com/guestAuth/app/rest/builds/id:2901620/artifacts/content/s3-artifact-storage.zip
+  internal_properties:
+    storage.s3.bucket.name: ${bucket}
+    storage.s3.acl: bucket-owner-full-control
+    storage.s3.bucket.prefix: ${prefix}
   logging:
     enabled: false
 

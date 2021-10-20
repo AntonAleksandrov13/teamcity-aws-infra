@@ -43,3 +43,12 @@ variable "service_suffix" {
   type    = string
   default = "teamcity"
 }
+
+variable "bucket" {
+  type = string
+}
+
+variable "prefix" {
+  type = string
+  default = "/artifacts"
+}
