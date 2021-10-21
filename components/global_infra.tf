@@ -103,3 +103,7 @@ output "oai_arn" {
 output "oai_path" {
   value = module.cloudfront.oai_path
 }
+
+output "hosted_zone" {
+  value = module.route53.route53_zone_name
+}
