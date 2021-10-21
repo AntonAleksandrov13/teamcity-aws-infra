@@ -89,6 +89,6 @@ agent:
 global:
   resource_quota:
     enabled: ${resource_quota_enabled}
-    cpu: "2000"
-    memory: 5Gi
-    pods: "5"
+    cpu: ${resource_quota_cpu}
+    memory: ${resource_quota_memory}
+    pods: ${resource_quota_pods}

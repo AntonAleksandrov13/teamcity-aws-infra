@@ -11,12 +11,12 @@ variable "tenant_namespace" {
 }
 
 variable "chart_version" {
-  type = string
+  type    = string
   default = "0.8.0"
 }
 
 variable "chart_name" {
-  type = string
+  type    = string
   default = "teamcity"
 }
 
@@ -95,12 +95,12 @@ variable "cluster_issuer_name" {
 
 variable "resource_quota_enabled" {
   type    = bool
-  default = true
+  default = false #trying to figure out needed resource in test. should be switched on in production
 }
 
 variable "resource_quota_cpu" {
   type    = string
-  default = "2000"
+  default = "5000m"
 }
 
 variable "resource_quota_memory" {
