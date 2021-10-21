@@ -69,36 +69,36 @@ variable "hosted_zone" {
 }
 
 variable "logging_enabled" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "network_policy_enabled" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "cluster_issuer_name" {
-  type = string
-  default = "selfsigned-cluster-issuer"
+  type    = string
+  default = "cluster-issuer"
 }
 
 variable "resource_quota_enabled" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "resource_quota_cpu" {
-  type = string
+  type    = string
   default = "2000"
 }
 
 variable "resource_quota_memory" {
-  type = string
+  type    = string
   default = "5Gi"
 }
 
 variable "resource_quota_pods" {
-  type = string
+  type    = string
   default = "5"
 }
