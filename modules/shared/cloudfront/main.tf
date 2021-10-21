@@ -1,7 +1,7 @@
 locals {
-  tenant_name  = replace(var.tenant_name, "/\\W|_|\\s/", "")
-  s3_origin_id = "${local.tenant_name}-origin"
-  oai_id       = "${local.tenant_name}-oai"
+  tenant_name             = replace(var.tenant_name, "/\\W|_|\\s/", "")
+  s3_origin_id            = "${local.tenant_name}-origin"
+  create_geo_restrictions = length(regexall("none", var.restriction_type)) == 0
 }
 
 resource "tls_private_key" "tenant_cf_pk" {
@@ -22,7 +22,7 @@ resource "aws_cloudfront_distribution" "tenant_distribution" {
   origin {
     domain_name = var.bucket_regional_domain_name
     origin_id   = local.s3_origin_id
-    origin_path = "/artifacts"
+    origin_path = var.origin_path
 
     s3_origin_config {
       origin_access_identity = var.oai_path
@@ -30,8 +30,8 @@ resource "aws_cloudfront_distribution" "tenant_distribution" {
   }
   enabled = true
   default_cache_behavior {
-    allowed_methods  = ["GET", "HEAD"]
-    cached_methods   = ["GET", "HEAD"]
+    allowed_methods  = var.allowed_methods
+    cached_methods   = var.allowed_methods
     target_origin_id = local.s3_origin_id
 
     forwarded_values {
@@ -42,20 +42,23 @@ resource "aws_cloudfront_distribution" "tenant_distribution" {
       }
     }
 
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 86400
-    max_ttl                = 31536000
-    compress               = true
+    viewer_protocol_policy = var.viewer_protocol_policy
+    min_ttl                = var.min_ttl
+    default_ttl            = var.default_ttl
+    max_ttl                = var.max_ttl
+    compress               = var.compress
     trusted_key_groups     = [aws_cloudfront_key_group.cf_keygroup.id]
   }
   restrictions {
     geo_restriction {
-      restriction_type = "none"
+      restriction_type = var.restriction_type
+      locations        = local.create_geo_restrictions ? var.locations : null
     }
   }
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+    cloudfront_default_certificate = var.cloudfront_default_certificate
+    acm_certificate_arn            = var.cloudfront_default_certificate ? null : var.acm_certificate_arn
+    iam_certificate_id             = var.cloudfront_default_certificate ? null : var.iam_certificate_id
   }
 }
