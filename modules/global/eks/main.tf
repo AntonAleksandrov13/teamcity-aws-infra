@@ -33,7 +33,7 @@ module "eks" {
   worker_groups = [
     for subnet in var.eks_worker_subnets :
     {
-      key_name             = aws_key_pair.eks-worker-key.id
+      key_name             = aws_key_pair.eks_worker_key.id
       instance_type        = var.instance_type
       asg_max_size         = var.max_eks_workers_per_asg
       asg_desired_capacity = var.desired_eks_workers_per_asg

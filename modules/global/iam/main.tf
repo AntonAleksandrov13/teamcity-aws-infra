@@ -17,7 +17,7 @@ module "cluster_autoscaler_role" {
   provider_url = local.provider_url
 
   role_policy_arns = [
-    module.cluster-autoscaler-policy.arn,
+    module.cluster_autoscaler_policy.arn,
   ]
   oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:cluster-autoscaler-aws-cluster-autoscaler"]
 }
@@ -67,7 +67,7 @@ module "external_dns_role" {
   provider_url = local.provider_url
 
   role_policy_arns = [
-    module.external-dns-policy.arn,
+    module.external_dns_policy.arn,
   ]
   oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:external-dns"]
 }
@@ -123,7 +123,7 @@ module "aws_efs_csi_driver_role" {
   provider_url = local.provider_url
 
   role_policy_arns = [
-    module.aws-efs-csi-driver-policy.arn,
+    module.aws_efs_csi_driver_policy.arn,
   ]
   oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:efs-csi-controller-sa"]
 }
