@@ -35,15 +35,15 @@ module "bastion" {
 }
 
 module "eks" {
-  source             = "../../../modules/global/eks"
-  cluster_name       = var.cluster_name
-  instance_type      = var.instance_type
+  source                      = "../../../modules/global/eks"
+  cluster_name                = var.cluster_name
+  instance_type               = var.instance_type
   desired_eks_workers_per_asg = var.desired_eks_workers_per_asg
-  min_eks_workers_per_asg = var.min_eks_workers_per_asg
-  vpc_id             = module.vpc.vpc_id
-  eks_worker_subnets = module.vpc.private_subnet_ids
-  eks_master_subnets = module.vpc.private_subnet_ids
-  map_users          = var.map_users
+  min_eks_workers_per_asg     = var.min_eks_workers_per_asg
+  vpc_id                      = module.vpc.vpc_id
+  eks_worker_subnets          = module.vpc.private_subnet_ids
+  eks_master_subnets          = module.vpc.private_subnet_ids
+  map_users                   = var.map_users
 }
 
 module "efs" {
@@ -68,7 +68,10 @@ module "helm_utility_applications" {
   external_dns_role_arn       = module.iam.external_dns_role_arn
   aws_efs_csi_driver_role_arn = module.iam.aws_efs_csi_driver_role_arn
   txt_owner_id                = module.route53.txt_owner_id
+}
 
+module "cloudfront" {
+  source = "../../../modules/global/cloudfront"
 }
 output "vpc_id" {
   value = module.vpc.vpc_id
@@ -92,4 +95,11 @@ output "oidc_url" {
 
 output "cluster_name" {
   value = var.cluster_name
+}
+
+output "oai_arn" {
+  value = module.cloudfront.oai_arn
+}
+output "oai_path" {
+  value = module.cloudfront.oai_path
 }
