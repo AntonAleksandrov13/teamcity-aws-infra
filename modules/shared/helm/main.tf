@@ -1,6 +1,7 @@
 locals {
   tenant_name  = replace(var.tenant_name, "/\\W|_|\\s/", "")
   service_name = "${local.tenant_name}-${var.service_suffix}"
+  common_name  = "${local.tenant_name}.${var.hosted_zone}"
 }
 terraform {
   required_version = ">= 1.0.0"
@@ -41,7 +42,7 @@ data "template_file" "tenant_teamcity_values" {
     service_name    = local.service_name
     bucket          = var.bucket
     prefix          = var.prefix
-    common_name     = "tenant-one.teamcity-anton-cloud.com"
+    common_name     = local.common_name
     distribution_id = var.cf_distribution_id
     pubkey_id       = var.cf_pubkey_id
     pk_pem          = var.cf_pk_pem #it's better to be separated into a set argument inside helm_release. due to path complexy - helm provider cannot see this variable

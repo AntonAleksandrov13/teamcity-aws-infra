@@ -67,6 +67,7 @@ module "helm" {
   cf_distribution_id = module.cloudfront.distribution_id
   cf_pubkey_id       = module.cloudfront.cf_pub_key_id
   cf_pk_pem          = module.cloudfront.cf_pk_pem
+  hosted_zone = data.terraform_remote_state.global_infra.outputs.hosted_zone
 }
 
 

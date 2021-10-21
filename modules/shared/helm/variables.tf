@@ -49,7 +49,7 @@ variable "bucket" {
 }
 
 variable "prefix" {
-  type = string
+  type    = string
   default = "/artifacts"
 }
 
@@ -64,3 +64,6 @@ variable "cf_pk_pem" {
   type = string
 }
 
+variable "hosted_zone" {
+  type = string
+}
