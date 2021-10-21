@@ -6,3 +6,6 @@ variable "acceleration_status" {
   type = string
   default = "Enabled"
 }
+variable "oai_arn" {
+type = string
+}
