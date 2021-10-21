@@ -47,7 +47,7 @@ resource "aws_cloudfront_distribution" "tenant_distribution" {
     default_ttl            = 86400
     max_ttl                = 31536000
     compress               = true
-    # trusted_key_groups     = [aws_cloudfront_key_group.cf_keygroup.id]
+    trusted_key_groups     = [aws_cloudfront_key_group.cf_keygroup.id]
   }
   restrictions {
     geo_restriction {
