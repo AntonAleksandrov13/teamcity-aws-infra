@@ -64,6 +64,9 @@ module "helm" {
   agent_role_arn   = module.iam.agent_role_arn
   server_role_arn  = module.iam.server_role_arn
   bucket           = module.s3.bucket_name
+  cf_distribution_id = module.cloudfront.distribution_id
+  cf_pubkey_id = module.cloudfront.cf_pub_key_id
+  cf_pk_pem = module.cloudfront.distribution_id
 }
 
 
