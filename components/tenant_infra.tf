@@ -33,6 +33,15 @@ module "rds" {
 module "s3" {
   source      = "../../../modules/shared/s3"
   tenant_name = var.tenant_name
+  oai_arn     = data.terraform_remote_state.global_infra.outputs.oai_arn
+
+}
+
+module "cloudfront" {
+  source                      = "../../../modules/shared/cloudfront"
+  tenant_name                 = var.tenant_name
+  oai_path                    = data.terraform_remote_state.global_infra.outputs.oai_path
+  bucket_regional_domain_name = module.s3.bucket_regional_domain_name
 }
 
 module "iam" {
@@ -44,16 +53,20 @@ module "iam" {
 }
 
 module "helm" {
-  source           = "../../../modules/shared/helm"
-  tenant_name      = var.tenant_name
-  tenant_namespace = var.tenant_namespace
-  cluster_name     = data.terraform_remote_state.global_infra.outputs.cluster_name
-  db_user          = module.rds.db_user
-  db_password      = module.rds.db_password
-  db_host          = module.rds.db_host
-  db_name          = module.rds.db_name
-  agent_role_arn   = module.iam.agent_role_arn
-  server_role_arn  = module.iam.server_role_arn
+  source             = "../../../modules/shared/helm"
+  tenant_name        = var.tenant_name
+  tenant_namespace   = var.tenant_namespace
+  cluster_name       = data.terraform_remote_state.global_infra.outputs.cluster_name
+  db_user            = module.rds.db_user
+  db_password        = module.rds.db_password
+  db_host            = module.rds.db_host
+  db_name            = module.rds.db_name
+  agent_role_arn     = module.iam.agent_role_arn
+  server_role_arn    = module.iam.server_role_arn
+  bucket             = module.s3.bucket_name
+  cf_distribution_id = module.cloudfront.distribution_id
+  cf_pubkey_id       = module.cloudfront.cf_pub_key_id
+  cf_pk_pem          = module.cloudfront.cf_pk_pem
 }
 
 

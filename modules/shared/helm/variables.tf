@@ -43,3 +43,24 @@ variable "service_suffix" {
   type    = string
   default = "teamcity"
 }
+
+variable "bucket" {
+  type = string
+}
+
+variable "prefix" {
+  type = string
+  default = "/artifacts"
+}
+
+variable "cf_distribution_id" {
+  type = string
+}
+variable "cf_pubkey_id" {
+  type = string
+}
+
+variable "cf_pk_pem" {
+  type = string
+}
+
