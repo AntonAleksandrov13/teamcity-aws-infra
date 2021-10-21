@@ -1,6 +1,4 @@
 locals {
-  #remove any special characters from string as RDS does not accept anything but alphabetic letters
-  name = replace(var.tenant_name, "/\\W|_|\\s/", "")
   #t2... instances cannot enable at rest encryption or performance insightsname
   #if instance contains t2... we disable these properties, else variable with the default value is used
   is_t2_instance_class         = length(regexall(".t2.", var.instance_class)) > 0
@@ -12,7 +10,7 @@ module "security_group" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 4"
 
-  name        = local.name
+  name        = var.tenant_name
   description = "RDS security group for ${var.tenant_name}"
   vpc_id      = var.vpc_id
 
@@ -37,7 +35,7 @@ resource "random_password" "password" {
 module "db" {
   source = "terraform-aws-modules/rds/aws"
 
-  identifier = local.name
+  identifier = var.tenant_name
 
 
   engine               = var.engine
@@ -50,8 +48,8 @@ module "db" {
   max_allocated_storage = var.max_allocated_storage
   storage_encrypted     = local.storage_encrypted
 
-  name     = local.name
-  username = local.name
+  name     = var.tenant_name
+  username = var.tenant_name
   password = random_password.password.result
   port     = 3306
 

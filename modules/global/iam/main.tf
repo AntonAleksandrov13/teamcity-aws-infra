@@ -2,7 +2,7 @@ locals {
   provider_url = trimprefix(var.oidc_url, "https://")
 }
 
-module "cluster-autoscaler-role" {
+module "cluster_autoscaler_role" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version = "~> 4.3"
 
@@ -17,12 +17,12 @@ module "cluster-autoscaler-role" {
   provider_url = local.provider_url
 
   role_policy_arns = [
-    module.cluster-autoscaler-policy.arn,
+    module.cluster_autoscaler_policy.arn,
   ]
   oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:cluster-autoscaler-aws-cluster-autoscaler"]
 }
 
-module "cluster-autoscaler-policy" {
+module "cluster_autoscaler_policy" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
   version = "~> 4.3"
 
@@ -52,7 +52,7 @@ module "cluster-autoscaler-policy" {
 EOF
 }
 
-module "external-dns-role" {
+module "external_dns_role" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version = "~> 4.3"
 
@@ -67,12 +67,12 @@ module "external-dns-role" {
   provider_url = local.provider_url
 
   role_policy_arns = [
-    module.external-dns-policy.arn,
+    module.external_dns_policy.arn,
   ]
   oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:external-dns"]
 }
 
-module "external-dns-policy" {
+module "external_dns_policy" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
   version = "~> 4.3"
 
@@ -108,7 +108,7 @@ module "external-dns-policy" {
 EOF
 }
 
-module "aws-efs-csi-driver-role" {
+module "aws_efs_csi_driver_role" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version = "~> 4.3"
 
@@ -123,12 +123,12 @@ module "aws-efs-csi-driver-role" {
   provider_url = local.provider_url
 
   role_policy_arns = [
-    module.aws-efs-csi-driver-policy.arn,
+    module.aws_efs_csi_driver_policy.arn,
   ]
   oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:efs-csi-controller-sa"]
 }
 
-module "aws-efs-csi-driver-policy" {
+module "aws_efs_csi_driver_policy" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-policy"
   version = "~> 4.3"
 

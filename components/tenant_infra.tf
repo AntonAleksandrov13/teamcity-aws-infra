@@ -20,10 +20,14 @@ data "terraform_remote_state" "global_infra" {
     key     = "global_infra"
   }
 }
+locals {
+  tenant_name  = replace(var.tenant_name, "/\\W|_|\\s/", "")
+  tenant_namespace = replace(var.tenant_namespace, "/\\W|_|\\s/", "")
+}
 
 module "rds" {
   source           = "../../../modules/shared/rds"
-  tenant_name      = var.tenant_name
+  tenant_name      = local.tenant_name
   vpc_id           = data.terraform_remote_state.global_infra.outputs.vpc_id
   eks_worker_sg_id = data.terraform_remote_state.global_infra.outputs.eks_worker_sg_id
   bastion_sg_id    = data.terraform_remote_state.global_infra.outputs.bastion_sg_id
@@ -32,30 +36,30 @@ module "rds" {
 
 module "s3" {
   source      = "../../../modules/shared/s3"
-  tenant_name = var.tenant_name
+  tenant_name = local.tenant_name
   oai_arn     = data.terraform_remote_state.global_infra.outputs.oai_arn
 
 }
 
 module "cloudfront" {
   source                      = "../../../modules/shared/cloudfront"
-  tenant_name                 = var.tenant_name
+  tenant_name                 = local.tenant_name
   oai_path                    = data.terraform_remote_state.global_infra.outputs.oai_path
   bucket_regional_domain_name = module.s3.bucket_regional_domain_name
 }
 
 module "iam" {
   source            = "../../../modules/shared/iam"
-  tenant_name       = var.tenant_name
-  tenant_namespace  = var.tenant_namespace
+  tenant_name       = local.tenant_name
+  tenant_namespace  = local.tenant_namespace
   tenant_bucket_arn = module.s3.bucket_arn
   oidc_url          = data.terraform_remote_state.global_infra.outputs.oidc_url
 }
 
 module "helm" {
   source             = "../../../modules/shared/helm"
-  tenant_name        = var.tenant_name
-  tenant_namespace   = var.tenant_namespace
+  tenant_name        = local.tenant_name
+  tenant_namespace   = local.tenant_namespace
   cluster_name       = data.terraform_remote_state.global_infra.outputs.cluster_name
   db_user            = module.rds.db_user
   db_password        = module.rds.db_password
@@ -67,19 +71,5 @@ module "helm" {
   cf_distribution_id = module.cloudfront.distribution_id
   cf_pubkey_id       = module.cloudfront.cf_pub_key_id
   cf_pk_pem          = module.cloudfront.cf_pk_pem
+  hosted_zone = data.terraform_remote_state.global_infra.outputs.hosted_zone
 }
-
-
-# todo: remove it, only used for testing
-# output "db_user" {
-#   value = nonsensitive(module.rds.db_user)
-# }
-# output "db_password" {
-#   value = nonsensitive(module.rds.db_password)
-# }
-# output "db_name" {
-#   value = module.rds.db_name
-# }
-# output "db_host" {
-#   value = module.rds.db_host
-# }

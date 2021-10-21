@@ -1,4 +1,4 @@
-module "ec2-bastion-server" {
+module "ec2_bastion_server" {
   source   = "cloudposse/ec2-bastion-server/aws"
   version  = "0.28.3"
   name     = "bastion"

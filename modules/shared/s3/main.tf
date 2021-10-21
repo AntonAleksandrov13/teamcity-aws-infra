@@ -1,5 +1,5 @@
 locals {
-  bucket_name     = "${replace(var.tenant_name, "/\\W|_|\\s/", "")}-artifact-bucket"
+  bucket_name     = "${var.tenant_name}-artifact-bucket"
   artifact_folder = "${var.artifact_folder}/"
 }
 module "s3_bucket" {
@@ -14,7 +14,7 @@ module "s3_bucket" {
   #     target_bucket = module.log_bucket.s3_bucket_id
   #     target_prefix = "log/"
   # }
-  versioning = {
+  versioning = {  
     enabled = false
   }
 }

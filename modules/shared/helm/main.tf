@@ -1,6 +1,6 @@
 locals {
-  tenant_name  = replace(var.tenant_name, "/\\W|_|\\s/", "")
-  service_name = "${local.tenant_name}-${var.service_suffix}"
+  service_name = "${var.tenant_name}-${var.service_suffix}"
+  common_name  = "${var.tenant_name}.${var.hosted_zone}"
 }
 terraform {
   required_version = ">= 1.0.0"
@@ -29,7 +29,7 @@ provider "helm" {
 }
 
 data "template_file" "tenant_teamcity_values" {
-  template = file("../../../modules/shared/helm/teamcity-values.yaml.tpl")
+  template = file("${path.module}/teamcity-values.yaml.tpl")
   vars = {
     storage_class   = var.storage_class
     db_user         = var.db_user
@@ -41,15 +41,22 @@ data "template_file" "tenant_teamcity_values" {
     service_name    = local.service_name
     bucket          = var.bucket
     prefix          = var.prefix
-    common_name     = "tenant-one.teamcity-anton-cloud.com"
+    common_name     = local.common_name
     distribution_id = var.cf_distribution_id
     pubkey_id       = var.cf_pubkey_id
     pk_pem          = var.cf_pk_pem #it's better to be separated into a set argument inside helm_release. due to path complexy - helm provider cannot see this variable
+    logging_enabled = var.logging_enabled
+    network_policy_enabled = var.network_policy_enabled
+    cluster_issuer_name = var.cluster_issuer_name
+    resource_quota_enabled = var.resource_quota_enabled
+    resource_quota_cpu = var.resource_quota_cpu
+    resource_quota_memory = var.resource_quota_memory
+    resource_quota_pods = var.resource_quota_pods
   }
 }
 
-resource "helm_release" "tenant-teamcity" {
-  name             = local.tenant_name
+resource "helm_release" "tenant_teamcity" {
+  name             = var.tenant_name
   repository       = "https://antonaleksandrov13.github.io/teamcity-chart"
   chart            = "teamcity"
   version          = "0.7.0"
