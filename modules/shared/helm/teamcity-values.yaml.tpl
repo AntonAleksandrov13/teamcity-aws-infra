@@ -19,10 +19,10 @@ server:
     storage.s3.cloudfront.create.distribution: false
 
   logging:
-    enabled: false
+    enabled: ${logging_enabled}
 
   networkPolicy:
-    enabled: false
+    enabled: ${network_policy_enabled}
 
   persistentDataDir:
     enabled: true
@@ -44,7 +44,7 @@ server:
     enabled: true
     className: nginx
     annotations:
-      cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
+      cert-manager.io/cluster-issuer: ${cluster_issuer_name}
       cert-manager.io/common-name: ${common_name}
     hosts:
       - host: ${common_name}
@@ -70,7 +70,7 @@ agent:
     tag: latest
 
   logging:
-    enabled: false
+    enabled: ${logging_enabled}
 
   serviceAccount:
     create: true
@@ -88,7 +88,7 @@ agent:
 
 global:
   resource_quota:
-    enabled: false
-    cpu: "10000"
-    memory: 10Gi
-    pods: "10"
+    enabled: ${resource_quota_enabled}
+    cpu: "2000"
+    memory: 5Gi
+    pods: "5"

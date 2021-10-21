@@ -67,3 +67,38 @@ variable "cf_pk_pem" {
 variable "hosted_zone" {
   type = string
 }
+
+variable "logging_enabled" {
+  type = bool
+  default = true
+}
+
+variable "network_policy_enabled" {
+  type = bool
+  default = true
+}
+
+variable "cluster_issuer_name" {
+  type = string
+  default = "selfsigned-cluster-issuer"
+}
+
+variable "resource_quota_enabled" {
+  type = bool
+  default = true
+}
+
+variable "resource_quota_cpu" {
+  type = string
+  default = "2000"
+}
+
+variable "resource_quota_memory" {
+  type = string
+  default = "5Gi"
+}
+
+variable "resource_quota_pods" {
+  type = string
+  default = "5"
+}

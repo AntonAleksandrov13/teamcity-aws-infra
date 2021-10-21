@@ -45,6 +45,13 @@ data "template_file" "tenant_teamcity_values" {
     distribution_id = var.cf_distribution_id
     pubkey_id       = var.cf_pubkey_id
     pk_pem          = var.cf_pk_pem #it's better to be separated into a set argument inside helm_release. due to path complexy - helm provider cannot see this variable
+    logging_enabled = var.logging_enabled
+    network_policy_enabled = var.network_policy_enabled
+    cluster_issuer_name = var.cluster_issuer_name
+    resource_quota_enabled = var.resource_quota_enabled
+    resource_quota_cpu = var.resource_quota_cpu
+    resource_quota_memory = var.resource_quota_memory
+    resource_quota_pods = var.resource_quota_pods
   }
 }
 
