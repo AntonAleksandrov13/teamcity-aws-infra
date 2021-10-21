@@ -29,7 +29,7 @@ provider "helm" {
 }
 
 data "template_file" "tenant_teamcity_values" {
-  template = file("../../../modules/shared/helm/teamcity-values.yaml.tpl")
+  template = file("${path.module}/teamcity-values.yaml.tpl")
   vars = {
     storage_class   = var.storage_class
     db_user         = var.db_user

@@ -47,11 +47,11 @@ resource "helm_release" "nginx-ingress" {
   version    = "4.0.5"
   namespace  = "kube-system"
   values = [
-    "${file("../../../modules/global/helm/nginx-ingress.yaml")}"
+    "${file("${path.module}/nginx-ingress.yaml")}"
   ]
 }
 data "template_file" "aws_efs_csi_driver_values" {
-  template = file("../../../modules/global/helm/aws-efs-csi-driver.yaml.tpl")
+  template = file("${path.module}/aws-efs-csi-driver.yaml.tpl")
   vars = {
     role_arn = var.aws_efs_csi_driver_role_arn
   }
@@ -69,7 +69,7 @@ resource "helm_release" "aws-efs-csi-driver" {
 }
 
 data "template_file" "cluster_autoscaler_values" {
-  template = file("../../../modules/global/helm/cluster_autoscaler.yaml.tpl")
+  template = file("${path.module}/cluster_autoscaler.yaml.tpl")
   vars = {
     cluster_name = var.cluster_name
     region       = var.region
@@ -90,7 +90,7 @@ resource "helm_release" "cluster-autoscaler" {
 }
 
 data "template_file" "external_dns_values" {
-  template = file("../../../modules/global/helm/external_dns.yaml.tpl")
+  template = file("${path.module}/external_dns.yaml.tpl")
   vars = {
     region       = var.region
     role_arn     = var.external_dns_role_arn
@@ -124,7 +124,7 @@ resource "helm_release" "cert-manager" {
 }
 
 data "template_file" "metrics_server_values" {
-  template = file("../../../modules/global/helm/metrics_server.yaml.tpl")
+  template = file("${path.module}/metrics_server.yaml.tpl")
 }
 
 resource "helm_release" "metrics-server" {
@@ -141,11 +141,11 @@ resource "helm_release" "metrics-server" {
 
 resource "kubectl_manifest" "cluster-issuer" {
   provider  = kubectl
-  yaml_body = file("../../../modules/global/helm/self-signed-issuer.yaml")
+  yaml_body = file("${path.module}/self-signed-issuer.yaml")
 }
 
 data "template_file" "efs_storage_class" {
-  template = file("../../../modules/global/helm/efs-storageclass.yaml.tpl")
+  template = file("${path.module}/efs-storageclass.yaml.tpl")
   vars = {
     "fs_id" = var.efs_id
   }

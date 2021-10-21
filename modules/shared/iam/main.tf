@@ -25,7 +25,7 @@ module "tenant-server-role" {
 }
 
 data "template_file" "tenant-server-policy" {
-  template = file("../../../modules/shared/iam/server-policy.json.tpl")
+  template = file("${path.module}/server-policy.json.tpl")
   vars = {
     resource = var.tenant_bucket_arn
   }
@@ -53,7 +53,7 @@ module "tenant-agent-role" {
 }
 
 data "template_file" "tenant-agent-policy" {
-  template = file("../../../modules/shared/iam/agent-policy.json.tpl")
+  template = file("${path.module}/agent-policy.json.tpl")
   vars = {
     resource = var.tenant_bucket_arn
   }
