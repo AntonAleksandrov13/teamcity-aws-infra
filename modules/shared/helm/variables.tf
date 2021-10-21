@@ -10,6 +10,16 @@ variable "tenant_namespace" {
   type = string
 }
 
+variable "chart_version" {
+  type = string
+  default = "0.8.0"
+}
+
+variable "chart_name" {
+  type = string
+  default = "teamcity"
+}
+
 variable "storage_class" {
   type    = string
   default = "efs-sc"
