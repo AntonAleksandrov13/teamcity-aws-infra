@@ -2,11 +2,11 @@ locals {
   provider_url = trimprefix(var.oidc_url, "https://")
   tenant_name  = replace(var.tenant_name, "/\\W|_|\\s/", "")
 
-  server_role_name = "${local.tenant_name}-server-role"
-  agent_role_name  = "${local.tenant_name}-agent-role"
+  server_role_name = "${var.tenant_name}-server-role"
+  agent_role_name  = "${var.tenant_name}-agent-role"
 
-  server_policy_name = "${local.tenant_name}-server-policy"
-  agent_policy_name  = "${local.tenant_name}-agent-policy"
+  server_policy_name = "${var.tenant_name}-server-policy"
+  agent_policy_name  = "${var.tenant_name}-agent-policy"
 
 }
 #Teamcity server

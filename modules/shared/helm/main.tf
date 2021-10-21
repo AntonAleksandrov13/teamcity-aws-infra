@@ -1,7 +1,6 @@
 locals {
-  tenant_name  = replace(var.tenant_name, "/\\W|_|\\s/", "")
-  service_name = "${local.tenant_name}-${var.service_suffix}"
-  common_name  = "${local.tenant_name}.${var.hosted_zone}"
+  service_name = "${var.tenant_name}-${var.service_suffix}"
+  common_name  = "${var.tenant_name}.${var.hosted_zone}"
 }
 terraform {
   required_version = ">= 1.0.0"
@@ -50,7 +49,7 @@ data "template_file" "tenant_teamcity_values" {
 }
 
 resource "helm_release" "tenant-teamcity" {
-  name             = local.tenant_name
+  name             = var.tenant_name
   repository       = "https://antonaleksandrov13.github.io/teamcity-chart"
   chart            = "teamcity"
   version          = "0.7.0"
