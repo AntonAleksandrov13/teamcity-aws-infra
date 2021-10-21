@@ -61,8 +61,8 @@ resource "tls_private_key" "pk" {
   rsa_bits  = 4096
 }
 #tricky bit. on one hand, I would rather generate this by hand rather than storing it in state and showing it in plan
-# on the otherhand, we are focusing on reproducible environment here
-resource "aws_key_pair" "eks-worker-key" {
+#on the otherhand, we are focusing on reproducible environment here. it's a potential considaration
+resource "aws_key_pair" "eks_worker_key" {
   key_name   = "eks-worker-key"
   public_key = tls_private_key.pk.public_key_openssh
   provisioner "local-exec" {

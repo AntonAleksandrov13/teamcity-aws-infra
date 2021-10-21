@@ -40,24 +40,24 @@ provider "kubectl" {
   }
 }
 
-resource "helm_release" "nginx-ingress" {
+resource "helm_release" "nginx_ingress" {
   name       = "ingress-nginx"
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
   version    = "4.0.5"
   namespace  = "kube-system"
   values = [
-    "${file("${path.module}/nginx-ingress.yaml")}"
+    "${file("${path.module}/nginx_ingress.yaml")}"
   ]
 }
 data "template_file" "aws_efs_csi_driver_values" {
-  template = file("${path.module}/aws-efs-csi-driver.yaml.tpl")
+  template = file("${path.module}/aws_efs_csi_driver.yaml.tpl")
   vars = {
     role_arn = var.aws_efs_csi_driver_role_arn
   }
 }
 
-resource "helm_release" "aws-efs-csi-driver" {
+resource "helm_release" "aws_efs_csi_driver" {
   name       = "aws-efs-csi-driver"
   repository = "https://kubernetes-sigs.github.io/aws-efs-csi-driver/"
   chart      = "aws-efs-csi-driver"
@@ -77,7 +77,7 @@ data "template_file" "cluster_autoscaler_values" {
   }
 }
 
-resource "helm_release" "cluster-autoscaler" {
+resource "helm_release" "cluster_autoscaler" {
   name       = "cluster-autoscaler"
   repository = "https://kubernetes.github.io/autoscaler"
   chart      = "cluster-autoscaler"
@@ -98,7 +98,7 @@ data "template_file" "external_dns_values" {
   }
 }
 
-resource "helm_release" "external-dns" {
+resource "helm_release" "external_dns" {
   name       = "external-dns"
   repository = "https://charts.bitnami.com/bitnami"
   chart      = "external-dns"
@@ -110,7 +110,7 @@ resource "helm_release" "external-dns" {
   ]
 }
 
-resource "helm_release" "cert-manager" {
+resource "helm_release" "cert_manager" {
   name       = "cert-manager"
   repository = "https://charts.jetstack.io"
   chart      = "cert-manager"
@@ -127,7 +127,7 @@ data "template_file" "metrics_server_values" {
   template = file("${path.module}/metrics_server.yaml.tpl")
 }
 
-resource "helm_release" "metrics-server" {
+resource "helm_release" "metrics_server" {
   name       = "metrics-server"
   repository = "https://charts.bitnami.com/bitnami"
   chart      = "metrics-server"
@@ -139,19 +139,19 @@ resource "helm_release" "metrics-server" {
   ]
 }
 
-resource "kubectl_manifest" "cluster-issuer" {
+resource "kubectl_manifest" "cluster_issuer" {
   provider  = kubectl
-  yaml_body = file("${path.module}/self-signed-issuer.yaml")
+  yaml_body = file("${path.module}/self_signed_issuer.yaml")
 }
 
 data "template_file" "efs_storage_class" {
-  template = file("${path.module}/efs-storageclass.yaml.tpl")
+  template = file("${path.module}/efs_storageclass.yaml.tpl")
   vars = {
     "fs_id" = var.efs_id
   }
 }
 
-resource "kubectl_manifest" "efs-storage-class" {
+resource "kubectl_manifest" "efs_storage_class" {
   provider  = kubectl
   yaml_body = data.template_file.efs_storage_class.rendered
 }
