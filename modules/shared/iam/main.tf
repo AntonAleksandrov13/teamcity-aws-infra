@@ -1,7 +1,5 @@
 locals {
-  provider_url = trimprefix(var.oidc_url, "https://")
-  tenant_name  = replace(var.tenant_name, "/\\W|_|\\s/", "")
-
+  provider_url     = trimprefix(var.oidc_url, "https://")
   server_role_name = "${var.tenant_name}-server-role"
   agent_role_name  = "${var.tenant_name}-agent-role"
 
@@ -10,7 +8,7 @@ locals {
 
 }
 #Teamcity server
-module "tenant-server-role" {
+module "tenant_server_role" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version = "~> 4.3"
 
@@ -24,21 +22,21 @@ module "tenant-server-role" {
   oidc_fully_qualified_subjects = ["system:serviceaccount:${var.tenant_namespace}:${var.tenant_server_serviceaccount}"]
 }
 
-data "template_file" "tenant-server-policy" {
-  template = file("${path.module}/server-policy.json.tpl")
+data "template_file" "tenant_server_policy" {
+  template = file("${path.module}/server_policy.json.tpl")
   vars = {
     resource = var.tenant_bucket_arn
   }
 }
 
-resource "aws_iam_role_policy" "tenant-server-policy" {
+resource "aws_iam_role_policy" "tenant_server_policy" {
   name   = local.server_policy_name
-  role   = module.tenant-server-role.iam_role_name
-  policy = data.template_file.tenant-server-policy.rendered
+  role   = module.tenant_server_role.iam_role_name
+  policy = data.template_file.tenant_server_policy.rendered
 }
 
 #Teamcity agent
-module "tenant-agent-role" {
+module "tenant_agent_role" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role-with-oidc"
   version = "~> 4.3"
 
@@ -52,15 +50,15 @@ module "tenant-agent-role" {
   oidc_fully_qualified_subjects = ["system:serviceaccount:${var.tenant_namespace}:${var.tenant_agent_serviceaccount}"]
 }
 
-data "template_file" "tenant-agent-policy" {
-  template = file("${path.module}/agent-policy.json.tpl")
+data "template_file" "tenant_agent_policy" {
+  template = file("${path.module}/agent_policy.json.tpl")
   vars = {
     resource = var.tenant_bucket_arn
   }
 }
 
-resource "aws_iam_role_policy" "tenant-agent-policy" {
+resource "aws_iam_role_policy" "tenant_agent_policy" {
   name   = local.agent_policy_name
-  role   = module.tenant-agent-role.iam_role_name
-  policy = data.template_file.tenant-agent-policy.rendered
+  role   = module.tenant_agent_role.iam_role_name
+  policy = data.template_file.tenant_agent_policy.rendered
 }

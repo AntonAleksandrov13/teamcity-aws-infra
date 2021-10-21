@@ -48,7 +48,7 @@ data "template_file" "tenant_teamcity_values" {
   }
 }
 
-resource "helm_release" "tenant-teamcity" {
+resource "helm_release" "tenant_teamcity" {
   name             = var.tenant_name
   repository       = "https://antonaleksandrov13.github.io/teamcity-chart"
   chart            = "teamcity"
