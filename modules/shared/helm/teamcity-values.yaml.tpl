@@ -11,9 +11,13 @@ server:
     storage.s3.bucket.name: ${bucket}
     storage.s3.acl: bucket-owner-full-control
     storage.s3.bucket.prefix: ${prefix}
+    storage.s3.cloudfront.distribution: ${distribution_id}
+    storage.s3.cloudfront.publicKeyId: ${pubkey_id}
+    secure:storage.s3.cloudfront.privateKey: "${pk_pem}"
     teamcity.s3.use.cloudfront.enabled: true
     storage.s3.cloudfront.enabled: true
-    
+    storage.s3.cloudfront.create.distribution: false
+
   logging:
     enabled: false
 

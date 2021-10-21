@@ -39,9 +39,12 @@ data "template_file" "tenant_teamcity_values" {
     server_role_arn = var.server_role_arn
     agent_role_arn  = var.agent_role_arn
     service_name    = local.service_name
-    bucket = var.bucket
-    prefix = var.prefix
+    bucket          = var.bucket
+    prefix          = var.prefix
     common_name     = "tenant-one.teamcity-anton-cloud.com"
+    distribution_id = var.cf_distribution_id
+    pubkey_id       = var.cf_pubkey_id
+    pk_pem          = var.cf_pk_pem #it's better to be separated into a set argument inside helm_release. due to path complexy - helm provider cannot see this variable
   }
 }
 
