@@ -1,6 +1,5 @@
 locals {
-  tenant_name             = replace(var.tenant_name, "/\\W|_|\\s/", "")
-  s3_origin_id            = "${local.tenant_name}-origin"
+  s3_origin_id            = "${var.tenant_name}-origin"
   create_geo_restrictions = length(regexall("none", var.restriction_type)) == 0
 }
 
@@ -15,7 +14,7 @@ resource "aws_cloudfront_public_key" "tenant_cf_key" {
 
 resource "aws_cloudfront_key_group" "cf_keygroup" {
   items = [aws_cloudfront_public_key.tenant_cf_key.id]
-  name  = "${local.tenant_name}-group"
+  name  = "${var.tenant_name}-group"
 }
 
 resource "aws_cloudfront_distribution" "tenant_distribution" {
