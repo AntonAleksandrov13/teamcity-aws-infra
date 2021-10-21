@@ -11,6 +11,9 @@ server:
     storage.s3.bucket.name: ${bucket}
     storage.s3.acl: bucket-owner-full-control
     storage.s3.bucket.prefix: ${prefix}
+    teamcity.s3.use.cloudfront.enabled: true
+    storage.s3.cloudfront.enabled: true
+    
   logging:
     enabled: false
 
