@@ -9,3 +9,13 @@ variable "acceleration_status" {
 variable "oai_arn" {
 type = string
 }
+
+variable "acl" {
+  type = string
+  default = "private"
+}
+
+variable "artifact_folder" {
+  type = string
+  default = "artifacts"
+}
