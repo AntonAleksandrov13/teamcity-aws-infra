@@ -155,3 +155,31 @@ resource "kubectl_manifest" "efs_storage_class" {
   provider  = kubectl
   yaml_body = data.template_file.efs_storage_class.rendered
 }
+
+#not ready, just showing how would I do it. 
+# resource "helm_release" "monitoring_stack" {
+#   name       = "monitoring"
+#   repository = "https://grafana.github.io/helm-charts"
+#   chart      = "loki-stack"
+#   version    = "2.5.0"
+#   namespace  = "kube-system"
+
+#   set {
+#     name  = "grafana.enabled"
+#     value = true
+#   }
+#   set {
+#     name  = "prometheus.enabled"
+#     value = true
+#   }
+
+#   set {
+#     name  = "prometheus.alertmanager.persistentVolume.enabled"
+#     value = false
+#   }
+
+#   set {
+#     name  = "prometheus.server.persistentVolume.enabled"
+#     value = false
+#   }
+# }
