@@ -31,35 +31,35 @@ provider "helm" {
 data "template_file" "tenant_teamcity_values" {
   template = file("${path.module}/teamcity-values.yaml.tpl")
   vars = {
-    storage_class   = var.storage_class
-    db_user         = var.db_user
-    db_password     = var.db_password
-    db_name         = var.db_name
-    db_host         = var.db_host
-    server_role_arn = var.server_role_arn
-    agent_role_arn  = var.agent_role_arn
-    service_name    = local.service_name
-    bucket          = var.bucket
-    prefix          = var.prefix
-    common_name     = local.common_name
-    distribution_id = var.cf_distribution_id
-    pubkey_id       = var.cf_pubkey_id
-    pk_pem          = var.cf_pk_pem #it's better to be separated into a set argument inside helm_release. due to path complexy - helm provider cannot see this variable
-    logging_enabled = var.logging_enabled
+    storage_class          = var.storage_class
+    db_user                = var.db_user
+    db_password            = var.db_password
+    db_name                = var.db_name
+    db_host                = var.db_host
+    server_role_arn        = var.server_role_arn
+    agent_role_arn         = var.agent_role_arn
+    service_name           = local.service_name
+    bucket                 = var.bucket
+    prefix                 = var.prefix
+    common_name            = local.common_name
+    distribution_id        = var.cf_distribution_id
+    pubkey_id              = var.cf_pubkey_id
+    pk_pem                 = var.cf_pk_pem #it's better to be separated into a set argument inside helm_release. due to path complexy - helm provider cannot see this variable
+    logging_enabled        = var.logging_enabled
     network_policy_enabled = var.network_policy_enabled
-    cluster_issuer_name = var.cluster_issuer_name
+    cluster_issuer_name    = var.cluster_issuer_name
     resource_quota_enabled = var.resource_quota_enabled
-    resource_quota_cpu = var.resource_quota_cpu
-    resource_quota_memory = var.resource_quota_memory
-    resource_quota_pods = var.resource_quota_pods
+    resource_quota_cpu     = var.resource_quota_cpu
+    resource_quota_memory  = var.resource_quota_memory
+    resource_quota_pods    = var.resource_quota_pods
   }
 }
 
 resource "helm_release" "tenant_teamcity" {
   name             = var.tenant_name
   repository       = "https://antonaleksandrov13.github.io/teamcity-chart"
-  chart            = "teamcity"
-  version          = "0.7.0"
+  chart            = var.chart_name
+  version          = var.chart_version
   namespace        = var.tenant_namespace
   create_namespace = true
   values = [
