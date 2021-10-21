@@ -33,6 +33,15 @@ module "rds" {
 module "s3" {
   source      = "../../../modules/shared/s3"
   tenant_name = var.tenant_name
+    oai_arn                     = data.terraform_remote_state.global_infra.outputs.oai_arn
+
+}
+
+module "cloudfront" {
+  source                      = "../../../modules/shared/cloudfront"
+  tenant_name                 = var.tenant_name
+  oai_path                    = data.terraform_remote_state.global_infra.outputs.oai_path
+  bucket_regional_domain_name = module.s3.bucket_regional_domain_name
 }
 
 module "iam" {
