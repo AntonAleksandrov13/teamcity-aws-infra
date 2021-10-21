@@ -31,7 +31,7 @@ Probably should have called it applications module. Installs the aforementioned 
 ### EFS module
 Create an EFS and mounting targets for EKS to use. Managed by aws-efs-csi-driver. PVC are created by Teamcity chart to persist data overtime.
 
-##TENANT INFRA
+## TENANT INFRA
 ## Cloudfront module(again?)
 This is tenant-specific module used to create distributions and provision key-pairs which Teamcity can use to create pre-signed urls
 
@@ -46,5 +46,5 @@ Creates MySQL database and pushes credentials to Helm module to let Teamcity aut
 ## Helm module
 The pinnacle of this project - installs Teamcity into a separate namespace with RDS and Cloudfront credentials. Source code: https://github.com/AntonAleksandrov13/teamcity-chart
 
-#how do I install this?
+# how do I install this?
 There's a set of scripts included in this project. Please see Github actions runs or workflow yaml files.
