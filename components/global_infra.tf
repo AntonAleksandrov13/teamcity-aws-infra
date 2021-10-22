@@ -73,6 +73,8 @@ module "helm_utility_applications" {
 module "cloudfront" {
   source = "../../../modules/global/cloudfront"
 }
+
+#outputs that are required by tenant infra. not separating them in a file to avoid overuse of symlinks
 output "vpc_id" {
   value = module.vpc.vpc_id
 }

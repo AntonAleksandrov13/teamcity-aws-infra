@@ -10,6 +10,9 @@ terraform {
     kubernetes = ">= 1.11.1"
   }
 }
+#separation of tenant infra from global leads to the fact we either need to query remote outputs
+#or use data resources. Quering remote state seems more reasonable to me here since I would have to ensure
+#that proper tags in place before querying the data. With this setup, however you only need to be sure that your global infra is applied correctly
 data "terraform_remote_state" "global_infra" {
   backend = "s3"
 
@@ -21,6 +24,7 @@ data "terraform_remote_state" "global_infra" {
   }
 }
 locals {
+  #cleaning up name of tenant name and namespace from any special symbols as some modules will not accept them
   tenant_name  = replace(var.tenant_name, "/\\W|_|\\s/", "")
   tenant_namespace = replace(var.tenant_namespace, "/\\W|_|\\s/", "")
 }
