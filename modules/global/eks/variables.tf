@@ -53,42 +53,43 @@ variable "manage_aws_auth" {
   default = true
 }
 
+# potentially can be used to create worker groups, however seems redundant. we aim to achieve consistency accross multiple AZs
 ## see worker_group_default for available options: https://github.com/terraform-aws-modules/terraform-aws-eks/blob/master/local.tf#L28
-variable "worker_groups" {
-  type = list(object({
-    key_name             = string
-    instance_type        = string
-    asg_min_size         = number
-    asg_max_size         = number
-    asg_desired_capacity = number
-    subnets              = list(string)
-    kubelet_extra_args   = string
-    tags = list(object({
-      key                 = string
-      propagate_at_launch = string
-      value               = string
-    }))
-
-  }))
-  default = []
-}
+#variable "worker_groups" {
+#  type = list(object({
+#    key_name             = string
+#    instance_type        = string
+#    asg_min_size         = number
+#    asg_max_size         = number
+#    asg_desired_capacity = number
+#    subnets              = list(string)
+#    kubelet_extra_args   = string
+#    tags = list(object({
+#      key                 = string
+#      propagate_at_launch = string
+#      value               = string
+#    }))
+#
+#  }))
+#  default = []
+#}
 
 variable "instance_type" {
-  type = string
+  type    = string
   default = "t2.micro"
 }
 
 variable "max_eks_workers_per_asg" {
-  type = number
+  type    = number
   default = 25
 }
 
 variable "desired_eks_workers_per_asg" {
-  type = number
+  type    = number
   default = 1
 }
 
 variable "min_eks_workers_per_asg" {
-  type = number
+  type    = number
   default = 1
 }

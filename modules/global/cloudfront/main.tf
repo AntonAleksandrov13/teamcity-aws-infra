@@ -1,10 +1,11 @@
-variable "oid_name" {
+variable "oai_name" {
   type    = string
-  default = "TeamCityOID"
+  default = "TeamCityOAI"
 }
 
+# AWS limits us to 100 OAIs per account. Instead of creating one OAI per tenant we will have one OAI per environment
 resource "aws_cloudfront_origin_access_identity" "global_oai" {
-  comment = var.oid_name
+  comment = var.oai_name
 }
 
 output "oai_arn" {
