@@ -7,7 +7,7 @@ Terraform bucket specified in backend dir and aws users to authenticate to AWS a
 ## what's inside?
 This project consists of two primary components - global infra and tenant infra. In short, global infra ensures that all shared resources are in place before letting tenant in. Since TeamCity will be deployed to EKS we need to provision VPC, IAM, EFS, Route53 and shared Helm applications in advance.
 
-##GLOBAL INFRA
+## GLOBAL INFRA
 ### VPC module
 VPC module takes advantage of the official AWS Terraform module and installs a VPC with 6 subnets(3 public and 3 private). In addition, to ensure network connectivity for EKS we deploy NAT gateway and IGW.
 
